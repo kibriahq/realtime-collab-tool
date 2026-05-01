@@ -9,7 +9,7 @@ export const createDoc = async (name?: string) => {
             Authorization: `Bearer ${getToken()}`
         }
     });
-    
+
     return res.data;
 }
 
@@ -19,6 +19,28 @@ export const getMyDocs = async () => {
             Authorization: `Bearer ${getToken()}`
         }
     });
-    
+
+    return res.data;
+}
+
+export const updateDocName = async (id: string, name: string) => {
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/docs/update/name/${id}`, {
+        name,
+    }, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    });
+
+    return res.data;
+}
+
+export const getDoc = async (id: string) => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/docs/${id}`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    });
+
     return res.data;
 }

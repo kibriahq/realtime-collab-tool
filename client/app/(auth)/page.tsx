@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 
 interface Doc {
   id: string
-  title: string
+  name: string
   updated_at: string
 }
 
@@ -19,12 +19,6 @@ interface EditRequest {
   docId: string
   requestedAt: string
 }
-
-const mockDocs: Doc[] = [
-  { id: "1", title: "Project Proposal", updatedAt: "2024-01-15" },
-  { id: "2", title: "Meeting Notes", updatedAt: "2024-01-14" },
-  { id: "3", title: "Research Draft", updatedAt: "2024-01-12" },
-]
 
 const mockRequests: EditRequest[] = [
   { id: "1", fromUser: "Alice", docTitle: "Q1 Report", docId: "4", requestedAt: "2024-01-15" },

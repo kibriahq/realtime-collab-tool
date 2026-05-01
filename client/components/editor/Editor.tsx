@@ -26,11 +26,14 @@ import Title from "./Title";
 type Props = {
     roomName: string;
     user: { name: string; color: string };
+    initialContent: { name: string; body: string };
 };
 
 const userColors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#A833FF', '#33FFF5', '#F5FF33', '#FF8C33', '#33FF8C', '#8C33FF'];
 
-export default function Editor({ roomName, user }: Props) {
+export default function Editor({ roomName, user, initialContent }: Props) {
+    console.log(initialContent);
+
     const ydoc = useMemo(() => new Y.Doc(), []);
     const [provider, setProvider] = useState<HocuspocusProvider | null>(null);
 
@@ -91,7 +94,7 @@ export default function Editor({ roomName, user }: Props) {
 
     return (
         <div className="editor-container lg:mx-0 mx-4 mt-5 mb-2">
-            <Title title={"New Document"} />
+            <Title title={initialContent.name} id={roomName} />
             <Controls editor={editor} />
             {/* <div className="h-[calc(100vh-180px)] overflow-y-auto editor-content-wrapper"> */}
             <div className="h-[calc(100vh-180px)] overflow-y-auto editor-content-wrapper">

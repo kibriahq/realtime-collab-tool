@@ -11,3 +11,13 @@ export const createDoc = async (name?: string, body?: string, userId?: string | 
 
     return doc;
 }
+
+export const updateDoc = async (id: string, name?: string, body?: string) => {
+    const doc = await Doc.update(id, name??'', body??'');
+    return doc;
+}
+
+export const getDocById = async (id: string) => {
+    const doc = await Doc.findById(id);
+    return doc;
+}
