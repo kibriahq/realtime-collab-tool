@@ -27,9 +27,9 @@ class Doc {
         return result.rows;
     }
 
-    async update(id: string, name: string, body: string) {
-        const query = `UPDATE docs SET name = $1, body = $2 WHERE id = $3 RETURNING *`;
-        const result = await pool.query(query, [name, body, id]);
+    async update(id: string, name: string) {
+        const query = `UPDATE docs SET name = $1 WHERE id = $2 RETURNING *`;
+        const result = await pool.query(query, [name, id]);
         return result.rows[0];
     }
 
