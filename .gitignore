@@ -69,7 +69,7 @@ out/
 /client/.env.*.local
 /client/npm-debug.log*
 /client/*.tgz
-/client/design
+/client/design/
 
 # Optional: lockfile if you intentionally want to ignore (usually do NOT ignore)
 # package-lock.json
