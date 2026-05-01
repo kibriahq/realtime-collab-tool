@@ -1,15 +1,27 @@
-import { ArrowBigLeftDash, Check, House, LayoutGrid, SquarePen, Trash, X } from "lucide-react";
+"use client"
+
+import { ArrowBigLeftDash, Check, SquarePen, Trash, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { updateDocName } from "../../api/doc";
+import { deleteDoc, updateDocName } from "../../api/doc";
+import { useRouter } from "next/navigation";
 
 function Title({ title, id }: { title: string, id: string }) {
     const [isEdit, setIsEdit] = useState(false);
     const [input, setInput] = useState(title);
 
+    const router = useRouter();
+
     const handleSubmit = async () => {
         await updateDocName(id, input);
         setIsEdit(false);
+    }
+
+    const handleDelete = async () => {
+        if (confirm('Are you sure you want to delete this document?')) {
+            await deleteDoc(id);
+            router.push('/');
+        }
     }
 
     return (
@@ -30,7 +42,7 @@ function Title({ title, id }: { title: string, id: string }) {
                     )
                     }
                 </h1 >
-                <button onClick={} className="text-red-300 hover:text-red-400 pb-2 cursor-pointer">
+                <button onClick={handleDelete} className="text-red-300 hover:text-red-400 pb-2 cursor-pointer">
                     <Trash size={20} />
                 </button>
             </div>

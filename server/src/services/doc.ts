@@ -21,3 +21,8 @@ export const getDocById = async (id: string) => {
     const doc = await Doc.findById(id);
     return doc;
 }
+
+export const deleteDocById = async (id: string) => {
+    const doc = await Doc.delete(id);
+    return doc;
+}

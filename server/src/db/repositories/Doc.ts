@@ -37,6 +37,22 @@ class Doc {
         const query = `DELETE FROM docs WHERE id = $1`;
         await pool.query(query, [id]);
     }
+
+    async selectDocBody(documentName: string) {
+        const query = `SELECT body FROM docs WHERE id = $1`;
+        const result = await pool.query(query, [documentName]);
+        return result.rows[0]?.body;
+    }
+
+    async updateDocHP(documentName: string, state: Buffer<ArrayBuffer>) {
+        await pool.query(
+            `INSERT INTO docs (id, body, updated_at)
+               VALUES ($1, $2, NOW())
+               ON CONFLICT (id) DO UPDATE
+               SET body = $2, updated_at = NOW()`,
+            [documentName, state]
+        );
+    }
 }
 
 export default new Doc();

@@ -44,3 +44,13 @@ export const getDoc = async (id: string) => {
 
     return res.data;
 }
+
+export const deleteDoc = async (id: string) => {
+    const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/docs/${id}`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    });
+
+    return res.data;
+}

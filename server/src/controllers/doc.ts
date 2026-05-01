@@ -1,5 +1,5 @@
 import type { Response } from "express"
-import { createDoc, getDocsByUser, updateDoc, getDocById } from "../services/doc.js";
+import { createDoc, getDocsByUser, updateDoc, getDocById, deleteDocById } from "../services/doc.js";
 import type { AuthRequest } from "../middlewares/auth.js";
 
 export const myDocs = async (req: AuthRequest, res: Response) => {
@@ -32,5 +32,11 @@ export const updateName = async (req: AuthRequest, res: Response) => {
 export const getDoc = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const doc = await getDocById(id);
+    return res.status(200).json(doc);
+}
+
+export const deleteDoc = async (req: AuthRequest, res: Response) => {
+    const { id } = req.params;
+    const doc = await deleteDocById(id);
     return res.status(200).json(doc);
 }
