@@ -23,7 +23,7 @@ export default function LoginPage() {
     try {
       const d = await login(data);
       setToken(d.token);
-      loginState(d.user)
+      loginState({...d.user, token: d.token})
 
       redirect('/');
     } catch (error) {

@@ -1,29 +1,30 @@
-import { action, persist, Action } from "easy-peasy";
+import { action, persist, Action, computed } from "easy-peasy";
 
 type User = Record<string, any>;
 
 export type AuthModel = {
     user: User;
-    isAuth: boolean;
+    isAuth: any;
+    token: string | null;
     login: Action<AuthModel, User>;
-    signup: Action<AuthModel, User>;
+    // signup: Action<AuthModel, User>;
     logout: Action<AuthModel, User>;
 }
 
 const authModel = persist<AuthModel>({
     user: {},
-    isAuth: false,
+    token: null,
+    isAuth: computed((state: any) => !!state.token),
     login: action((state, user) => {
-        state.isAuth = true;
         state.user = user;
+        state.token = user.token;
     }),
-    signup: action((state, user) => {
-        state.isAuth = true;
-        state.user = user;
-    }),
+    // signup: action((state, user) => {
+    //     state.user = user;
+    // }),
     logout: action((state) => {
-        state.isAuth = false;
         state.user = {};
+        state.token = null;
     })
 })
 

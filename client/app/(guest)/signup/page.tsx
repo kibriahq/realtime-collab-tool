@@ -24,9 +24,9 @@ export default function SignupPage() {
     try {
       const user = await signup(data);
       // setToken(d.token); // no return token
-      signupState(user)
+      // signupState(user)
 
-      redirect('/');
+      redirect('/login');
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errors = error?.response?.data?.errors as Record<string, { msg: string }>;

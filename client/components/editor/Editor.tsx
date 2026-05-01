@@ -28,6 +28,8 @@ type Props = {
     user: { name: string; color: string };
 };
 
+const userColors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#A833FF', '#33FFF5', '#F5FF33', '#FF8C33', '#33FF8C', '#8C33FF'];
+
 export default function Editor({ roomName, user }: Props) {
     const ydoc = useMemo(() => new Y.Doc(), []);
     const [provider, setProvider] = useState<HocuspocusProvider | null>(null);
@@ -60,7 +62,7 @@ export default function Editor({ roomName, user }: Props) {
                             provider,
                             user: {
                                 name: user.name,
-                                color: user.color,
+                                color: userColors[Math.floor(Math.random() * userColors.length)],
                             },
                         }),
                     ]

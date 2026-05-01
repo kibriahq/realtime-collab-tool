@@ -5,7 +5,7 @@ export type StoreType = {
     auth: AuthModel
 }
 
-const store = createStore({
+const store = createStore<StoreType>({
     auth: authModel
 })
 

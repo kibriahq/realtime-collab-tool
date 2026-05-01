@@ -1,4 +1,3 @@
-import type { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Role } from "../types/user.js";
@@ -6,19 +5,18 @@ import { createUser, findUserByEmail } from "./user.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "default-secret-key";
 
-export interface RegisterInput {
+export type RegisterInput = {
     name: string;
     email: string;
     password: string;
 }
 
-export interface LoginInput {
+export type LoginInput = {
     email: string;
     password: string;
 }
 
-export const register = async (req: Request, res: Response) => {
-    const { name, email, password } = req.body as unknown as RegisterInput;
+export const registerUser = async (name: string, email: string, password: string) => {
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -37,18 +35,10 @@ export const register = async (req: Request, res: Response) => {
         throw new Error("Failed to create user");
     }
 
-    return res.status(201).json({
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email,
-        role: newUser.role,
-        createdAt: newUser.createdAt,
-        updatedAt: newUser.updatedAt,
-    });
+    return newUser;
 };
 
-export const login = async (req: Request, res: Response) => {
-    const { email, password } = req.body as unknown as LoginInput;
+export const loginUser = async (email: string, password: string) => {
 
     const user = await findUserByEmail(email);
     if (!user) {
@@ -67,5 +57,5 @@ export const login = async (req: Request, res: Response) => {
         { expiresIn: "7d" }
     );
 
-    return res.status(200).json({ token, user: userInfo });
+    return { token, user: userInfo }
 };

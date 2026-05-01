@@ -8,7 +8,7 @@
     "dev": "nodemon --watch src --exec tsx src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "migrate-db": "tsx src/db/migrate.ts",
+    "migrate": "tsx src/db/migrate.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

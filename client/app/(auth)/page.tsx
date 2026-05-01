@@ -1,13 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { FileText, Plus, Users, Clock, User, LogOut } from "lucide-react"
+import { createDoc, getMyDocs } from "@/api/doc"
+import { useRouter } from "next/navigation"
 
 interface Doc {
   id: string
   title: string
-  updatedAt: string
+  updated_at: string
 }
 
 interface EditRequest {
@@ -30,16 +32,27 @@ const mockRequests: EditRequest[] = [
 ]
 
 export default function Home() {
-  const [docs, setDocs] = useState<Doc[]>(mockDocs)
+  const [docs, setDocs] = useState<Doc[]>([])
   const [requests, setRequests] = useState<EditRequest[]>(mockRequests)
 
-  const createNewDoc = () => {
-    const newDoc: Doc = {
-      id: String(docs.length + 1),
-      title: `Untitled Document ${docs.length + 1}`,
-      updatedAt: new Date().toISOString().split("T")[0],
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchDocs = async () => {
+      const docs = await getMyDocs();
+      setDocs(docs);
     }
-    setDocs([newDoc, ...docs])
+    fetchDocs();
+  }, [])
+
+  const createNewDoc = async () => {
+    try {
+      const d = await createDoc();
+      setDocs(prev => [...prev, d]);
+      router.push(`/docs/${d.id}`);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -86,13 +99,13 @@ export default function Home() {
               {docs.map((doc) => (
                 <Link
                   key={doc.id}
-                  href={`/doc/${doc.id}`}
+                  href={`/docs/${doc.id}`}
                   className="group p-4 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition-all duration-200"
                 >
                   <div className="font-semibold text-slate-700 group-hover:text-indigo-700">
-                    {doc.title}
+                    {doc.name}
                   </div>
-                  <div className="text-sm text-slate-400 mt-1">Last updated: {doc.updatedAt}</div>
+                  <div className="text-sm text-slate-400 mt-1">Last updated: {doc.updated_at}</div>
                 </Link>
               ))}
             </div>
