@@ -15,6 +15,7 @@ PLAN.md
 .env.local
 .env.*.local
 !.env.example
+!.env.local.example
 
 # Editors/IDE
 .vscode/
@@ -40,36 +41,6 @@ coverage-*
 dist/
 build/
 out/
-
-# --- Server ---
-/server/node_modules/
-/server/dist/
-/server/build/
-/server/lib/
-/server/.cache/
-/server/.next/
-/server/coverage/
-/server/.env
-/server/.env.local
-/server/.env.*.local
-/server/npm-debug.log*
-/server/pids/
-/server/*.tgz
-
-# --- Client ---
-/client/node_modules/
-/client/build/
-/client/dist/
-/client/.cache/
-/client/.next/
-/client/out/
-/client/coverage/
-/client/.env
-/client/.env.local
-/client/.env.*.local
-/client/npm-debug.log*
-/client/*.tgz
-/client/design/
 
 # Optional: lockfile if you intentionally want to ignore (usually do NOT ignore)
 # package-lock.json
