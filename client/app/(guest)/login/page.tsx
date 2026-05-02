@@ -38,7 +38,7 @@ export default function LoginPage() {
           })
         })
       } else {
-        throw Error(error instanceof Error ? error.message : 'Login failed')
+        console.log(error instanceof Error ? error.message : 'Login failed')
       }
     }
   }
