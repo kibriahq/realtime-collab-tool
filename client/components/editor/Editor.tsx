@@ -57,7 +57,9 @@ export default function Editor({ roomName, user, initialContent }: Props) {
     const editor = useEditor(
         {
             extensions: [
-                StarterKit,
+                StarterKit.configure({
+                    undoRedo: false,
+                }),
                 Collaboration.configure({ document: ydoc }),
                 ...(provider
                     ? [
@@ -78,10 +80,10 @@ export default function Editor({ roomName, user, initialContent }: Props) {
                 TableCell,
                 TableHeader,
                 TextAlign.configure({ types: ["heading", "paragraph"] }),
-                Underline,
+                // Underline,
                 Color,
                 TextStyle,
-                Link.configure({ openOnClick: false }),
+                // Link.configure({ openOnClick: false }),
                 Image,
             ],
             content: "",
