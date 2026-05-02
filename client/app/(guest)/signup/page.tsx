@@ -92,7 +92,7 @@ export default function SignupPage() {
             <h2 className="mb-3 font-headline text-4xl font-bold tracking-tight text-on-surface">
               Create your workspace
             </h2>
-            <p className="text-on-surface-variant">Start your 14-day free trial. No credit card required.</p>
+            <p className="text-on-surface-variant">To get started, create your account for free now</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
