@@ -2,6 +2,8 @@
 
 A real-time collaborative workspace application that allows users to create teams, coordinate projects, and co-edit documents seamlessly. Built with a modern tech stack focused on high-performance collaboration and rich text editing.
 
+![Collab Tool](/editorss.png)
+
 ## Features
 
 - **Real-time Collaboration**: Co-edit documents simultaneously with other team members in real-time, complete with multiplayer cursors.
