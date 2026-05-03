@@ -25,18 +25,18 @@ export const create = async (req: AuthRequest, res: Response) => {
 export const updateName = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const { name } = req.body;
-    const doc = await updateDoc(id, name);
+    const doc = await updateDoc(id as string, name);
     return res.status(200).json(doc);
 }
 
 export const getDoc = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
-    const doc = await getDocById(id);
+    const doc = await getDocById(id as string);
     return res.status(200).json(doc);
 }
 
 export const deleteDoc = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
-    const doc = await deleteDocById(id);
+    const doc = await deleteDocById(id as string);
     return res.status(200).json(doc);
 }

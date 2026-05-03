@@ -96,7 +96,7 @@ export default function Editor({ roomName, user, initialContent }: Props) {
 
     return (
         <div className="editor-container lg:mx-0 mx-4 mt-5 mb-2">
-            <Title title={initialContent.name} id={roomName} />
+            <Title title={initialContent.name} docId={roomName} />
             <Controls editor={editor} />
             {/* <div className="h-[calc(100vh-180px)] overflow-y-auto editor-content-wrapper"> */}
             <div className="h-[calc(100vh-180px)] overflow-y-auto editor-content-wrapper">

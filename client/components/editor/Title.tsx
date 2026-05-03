@@ -1,25 +1,25 @@
 "use client"
 
-import { ArrowBigLeftDash, Check, Plus, SquarePen, Trash, X } from "lucide-react";
-import Link from "next/link";
+import { Check, SquarePen, Trash, X } from "lucide-react";
 import { useState } from "react";
 import { deleteDoc, updateDocName } from "../../api/doc";
 import { useRouter } from "next/navigation";
+import AddUser from "./AddUser";
 
-function Title({ title, id }: { title: string, id: string }) {
+function Title({ title, docId }: { title: string, docId: string }) {
     const [isEdit, setIsEdit] = useState(false);
     const [input, setInput] = useState(title);
 
     const router = useRouter();
 
     const handleSubmit = async () => {
-        await updateDocName(id, input);
+        await updateDocName(docId, input);
         setIsEdit(false);
     }
 
     const handleDelete = async () => {
         if (confirm('Are you sure you want to delete this document?')) {
-            await deleteDoc(id);
+            await deleteDoc(docId);
             router.push('/');
         }
     }
@@ -59,37 +59,7 @@ function Title({ title, id }: { title: string, id: string }) {
                     <span className="text-green-500 font-semibold text-xl">K</span>
                 </div>
 
-                <div className="relative group">
-                    <div className="w-10 h-10 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center cursor-pointer border-dashed border-2 border-slate-400">
-                        <span className="text-slate-500 hover:text-slate-600 font-semibold text-xl">
-                            <Plus />
-                        </span>
-                    </div>
-                    <div className="absolute top-11 right-0 w-[250px] h-[300px] bg-slate-100 rounded-full z-40 border border-slate-300 p-2 hidden group-hover:flex">
-                        <div className="flex flex-col items-center justify-start h-full">
-                            <input type="text" className="border border-slate-200 rounded p-2 mt-2" placeholder="Search email..." />
-
-                            <div className="flex flex-col items-center justify-center mt-4 gap-2 w-full px-4">
-                                {/* user items */}
-                                {/* <div className="flex items-center justify-between gap-2 w-full">
-                                    <div className="flex items-start flex-col">
-                                        <p className="text-slate-500 font-semibold text-md">John Doe</p>
-                                        <p className="text-slate-500 font-body text-sm">john@test.com</p>
-                                    </div>
-                                    <button className="bg-purple-200 text-purple-500 hover:bg-purple-300 p-1 rounded">
-                                        <Plus size={20} />
-                                    </button>
-                                </div> */}
-
-                                {/* No user found */}
-                                <div className="flex items-center justify-center gap-2 w-full">
-                                    <p className="text-slate-500 font-semibold text-md">No user found</p>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <AddUser docId={docId} />
             </div>
         </div>
     )
