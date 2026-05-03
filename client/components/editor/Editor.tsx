@@ -21,7 +21,7 @@ import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import * as Y from "yjs";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import Controls from "./Controls";
-import Title from "./Title";
+import Header from "./Header";
 import { Permission } from "@/app/(auth)/docs/[id]/EditorWrapper";
 
 type Props = {
@@ -96,7 +96,7 @@ export default function Editor({ roomName, user, doc }: Props) {
 
     return (
         <div className="editor-container lg:mx-0 mx-4 mt-5 mb-2">
-            <Title title={doc.name} docId={roomName} permissions={doc.permissions} />
+            <Header title={doc.name} docId={roomName} permissions={doc.permissions} />
             <Controls editor={editor} />
             {/* <div className="h-[calc(100vh-180px)] overflow-y-auto editor-content-wrapper"> */}
             <div className="h-[calc(100vh-180px)] overflow-y-auto editor-content-wrapper">
