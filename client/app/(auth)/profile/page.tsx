@@ -1,5 +1,35 @@
 "use client"
 
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ *  THIS PAGE IS NOT FUNCTIONAL YET
+ *  I will implement it later
+ * 
+ *  
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
 import { useState } from "react"
 import Link from "next/link"
 import { ArrowLeft, User, Mail, Save, Loader2 } from "lucide-react"

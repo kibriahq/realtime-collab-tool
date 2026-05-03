@@ -6,6 +6,7 @@ import { FileText, Plus, Users, FileWarning } from "lucide-react"
 import { createDoc, getMyDocs } from "@/api/doc"
 import { useRouter } from "next/navigation"
 import Navbar from "@/components/ui/Navbar"
+import { timeFormater } from "@/utils/timeFormater"
 
 type Doc = {
   id: string
@@ -72,7 +73,7 @@ export default function Home() {
                   <div className="font-semibold text-slate-700 group-hover:text-indigo-700">
                     {doc.name}
                   </div>
-                  <div className="text-sm text-slate-400 mt-1">Last updated: {doc.updated_at}</div>
+                  <div className="text-sm text-slate-400 mt-1">Last updated: {timeFormater(doc.updated_at)}</div>
                 </Link>
               ))}
 
