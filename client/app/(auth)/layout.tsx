@@ -1,24 +1,30 @@
 "use client";
 
-import { useStoreState } from 'easy-peasy'
-// import { redirect } from 'next/navigation'
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react'
+import { isTokenExpired } from "@/utils/auth";
+import { useStoreActions, useStoreState } from "easy-peasy";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-    const isAuth = useStoreState((state: any) => state.auth.isAuth)
-    const router = useRouter()
-    
-    useEffect(() => {
-        if (!isAuth) {
-            router.replace('/login')
-        }
-    }, [isAuth])
+    const { isAuth, token } = useStoreState((state: any) => state.auth);
+    const { logout } = useStoreActions((state: any) => state.auth);
+    const router = useRouter();
+    const [checked, setChecked] = useState(false);
 
-    if(!isAuth) {
+    useEffect(() => {
+        if (!isAuth || isTokenExpired(token)) {
+            logout();
+            router.replace("/login");
+        } else {
+            setChecked(true);
+        }
+    }, [isAuth, token, router]);
+
+    if (!checked) {
         return null;
     }
-    return children;
-}
 
-export default Layout
+    return children;
+};
+
+export default Layout;

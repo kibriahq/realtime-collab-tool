@@ -7,5 +7,6 @@ const router: Router = Router();
 
 router.use('/auth', authRoutes);
 router.use('/docs', auth, docRouter)
+// router.use('/search-user', auth, searchUser)
 
 export default router;
