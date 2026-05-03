@@ -22,11 +22,12 @@ import * as Y from "yjs";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import Controls from "./Controls";
 import Title from "./Title";
+import { Permission } from "@/app/(auth)/docs/[id]/EditorWrapper";
 
 type Props = {
     roomName: string;
-    user: { name: string; color: string };
-    doc: { name: string; body: string, permissions: any[] };
+    user: { name: string; };
+    doc: { name: string; body: string, permissions: Permission[] };
 };
 
 const userColors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#A833FF', '#33FFF5', '#F5FF33', '#FF8C33', '#33FF8C', '#8C33FF'];

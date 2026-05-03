@@ -6,7 +6,7 @@ export type AuthModel = {
   user: User;
   isAuth: any;
   token: string | null;
-  login: Action<AuthModel, User>;
+  login: Action<AuthModel, {user: User, token: string}>;
   logout: Action<AuthModel, User>;
 };
 

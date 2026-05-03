@@ -7,8 +7,10 @@ import { useRouter } from "next/navigation";
 import AddUser from "./AddUser";
 import Avatars from "./ui/Avatars";
 import { getAllPermissions, removePermission } from "@/api/docPermission";
+import { Permission } from "@/app/(auth)/docs/[id]/EditorWrapper";
 
-function Title({ title, docId, permissions }: { title: string, docId: string, permissions: any[] }) {
+
+function Title({ title, docId, permissions }: { title: string, docId: string, permissions: Permission[] }) {
     const [isEdit, setIsEdit] = useState(false);
     const [input, setInput] = useState(title);
     const [perms, setPerms] = useState(permissions);

@@ -1,11 +1,11 @@
 import { createStore } from "easy-peasy";
 import authModel, { AuthModel } from "./auth-model";
 
-export type StoreType = {
+export type Store = {
     auth: AuthModel
 }
 
-const store = createStore<StoreType>({
+const store = createStore<Store>({
     auth: authModel
 })
 
