@@ -5,11 +5,14 @@ import { useState } from "react";
 import { deleteDoc, updateDocName } from "../../api/doc";
 import { useRouter } from "next/navigation";
 import AddUser from "./AddUser";
+import Avatars from "./ui/Avatars";
+import { getAllPermissions, removePermission } from "@/api/docPermission";
 
-function Title({ title, docId }: { title: string, docId: string }) {
+function Title({ title, docId, permissions }: { title: string, docId: string, permissions: any[] }) {
     const [isEdit, setIsEdit] = useState(false);
     const [input, setInput] = useState(title);
-
+    const [perms, setPerms] = useState(permissions);
+    
     const router = useRouter();
 
     const handleSubmit = async () => {
@@ -22,6 +25,17 @@ function Title({ title, docId }: { title: string, docId: string }) {
             await deleteDoc(docId);
             router.push('/');
         }
+    }
+
+    const handleRemovePermission = async (id: string,) => {
+        if (confirm("Are you sure you want to remove this permission?")) {
+            await removePermission(id);
+            setPerms(perms.filter((p: any) => p.id !== id));
+        }
+    }
+
+    const handleUpdatePermissions = async () => {
+        setPerms(await getAllPermissions(docId));
     }
 
     return (
@@ -48,18 +62,8 @@ function Title({ title, docId }: { title: string, docId: string }) {
             </div>
 
             <div className="flex items-center gap-2">
-                {/* User avatar */}
-                <div className="w-10 h-10 rounded-full bg-orange-200 flex items-center justify-center cursor-pointer">
-                    <span className="text-orange-500 font-semibold text-xl">J</span>
-                </div>
-                <div className="w-10 h-10 rounded-full bg-blue-200 flex items-center justify-center cursor-pointer">
-                    <span className="text-blue-500 font-semibold text-xl">M</span>
-                </div>
-                <div className="w-10 h-10 rounded-full bg-green-200 flex items-center justify-center cursor-pointer">
-                    <span className="text-green-500 font-semibold text-xl">K</span>
-                </div>
-
-                <AddUser docId={docId} />
+                <Avatars permissions={perms} handleRemovePermission={handleRemovePermission} />
+                <AddUser docId={docId} handleUpdatePermissions={handleUpdatePermissions} />
             </div>
         </div>
     )

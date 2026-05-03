@@ -9,6 +9,7 @@ router.get('/:id', getDoc);
 router.post('/', create);
 router.post('/update/name/:id', updateName);
 router.delete('/:id', deleteDoc);
+
 router.use('/permissions', docPermissionsRouter)
 
 export default router;

@@ -1,4 +1,5 @@
 import Doc from "../db/repositories/Doc.js";
+import Permission from "../db/repositories/Permission.js";
 
 export const getDocsByUser = async (userId: string) => {
     const docs = await Doc.findByUserId(userId);
@@ -19,7 +20,9 @@ export const updateDoc = async (id: string, name?: string) => {
 
 export const getDocById = async (id: string) => {
     const doc = await Doc.findById(id);
-    return doc;
+    const permissions = await Permission.getPermissions(id);
+    
+    return { ...doc, permissions };
 }
 
 export const deleteDocById = async (id: string) => {

@@ -28,8 +28,8 @@ export const addDocPermission = async (docId: string, userId: string, role?: str
     return permission;
 }
 
-export const removeDocPermission = async (docId: string, userId: string) => {
-    const permission = await Permissions.removePermission(docId, userId);
+export const removeDocPermission = async (id: string) => {
+    const permission = await Permissions.removePermission(id);
     return permission;
 }
 

@@ -2,7 +2,7 @@ import { addPermission, userSearch } from "@/api/docPermission";
 import { Check, Plus } from "lucide-react";
 import { useState } from "react";
 
-const AddUser = ({ docId }: { docId: string }) => {
+const AddUser = ({ docId, handleUpdatePermissions }: { docId: string, handleUpdatePermissions: () => void }) => {
     const [input, setInput] = useState("");
     const [isAddUserOpen, setIsAddUserOpen] = useState(false);
     const [users, setUsers] = useState<any[]>([]);
@@ -16,9 +16,6 @@ const AddUser = ({ docId }: { docId: string }) => {
         setUsers(users);
     }
 
-    console.log(users);
-
-
     const handleAddUser = () => {
         setIsAddUserOpen(!isAddUserOpen);
     }
@@ -31,6 +28,7 @@ const AddUser = ({ docId }: { docId: string }) => {
             return user;
         }));
         await addPermission(docId, userId);
+        handleUpdatePermissions();
     }
 
     return (
@@ -40,14 +38,14 @@ const AddUser = ({ docId }: { docId: string }) => {
                     <Plus />
                 </span>
             </div>
-            <div className={`absolute top-11 right-0 w-[250px] h-[300px] bg-slate-100 rounded-full z-40 border border-slate-300 p-2 ${isAddUserOpen ? 'flex' : 'hidden'}`}>
+            <div className={`absolute top-11 right-0 w-[250px] h-[300px] bg-slate-100 rounded-full z-40 border border-slate-300 p-2 px-4 ${isAddUserOpen ? 'block' : 'hidden'}`}>
                 <div className="flex flex-col items-center justify-start h-full">
                     <input value={input} onChange={handleSearch} type="text" className="border border-slate-200 rounded p-2 mt-2 w-full" placeholder="Search email..." />
 
                     <div className="flex flex-col items-center justify-center mt-4 gap-2 w-full px-4">
                         {/* user items */}
                         {users.length > 0 ? users.map((user: any) => (
-                            <div className="flex items-center justify-between gap-2 w-full">
+                            <div key={user.id} className="flex items-center justify-between gap-2 w-full">
                                 <div className="flex items-start flex-col">
                                     <p className="text-slate-500 font-semibold text-md">{user.name}</p>
                                     <p className="text-slate-500 font-body text-sm">{user.email}</p>
@@ -57,7 +55,7 @@ const AddUser = ({ docId }: { docId: string }) => {
                                         <Check size={20} />
                                     </button>
                                 ) : (
-                                    <button onClick={() => handleAddPermission(user.id)} className="bg-purple-200 text-purple-500 hover:bg-purple-300 p-1 rounded">
+                                    <button onClick={() => handleAddPermission(user.id)} className="bg-green-200 text-green-500 hover:bg-green-300 p-1 rounded">
                                         <Plus size={20} />
                                     </button>
                                 )}

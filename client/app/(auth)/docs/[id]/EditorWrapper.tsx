@@ -11,16 +11,19 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
 });
 
 export default function EditorWrapper({ roomName }: { roomName: string }) {
-    const [content, setContent] = useState({ name: '', body: '' });
+    const [doc, setDoc] = useState<{ name: string; body: string; permissions: any[] } | null>(null);
 
     useEffect(() => {
         const fetchDoc = async () => {
             const doc = await getDoc(roomName);
-            setContent({ name: doc.name, body: doc.body });
+            setDoc(doc);
         }
         fetchDoc();
     }, [roomName]);
 
     const { user } = useStoreState((state: any) => state.auth);
-    return <Editor roomName={roomName} user={user} initialContent={content} />
+
+    if (!doc) return <p>Loading document...</p>;
+
+    return <Editor roomName={roomName} user={user} doc={doc} />
 }

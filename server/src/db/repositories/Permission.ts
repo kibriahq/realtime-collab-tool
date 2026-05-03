@@ -12,8 +12,8 @@ class Permissions {
         return result.rows[0];
     }
 
-    async removePermission(docId: string, userId: string) {
-        const result = await pool.query('DELETE FROM doc_permissions WHERE doc_id = $1 AND user_id = $2 RETURNING *', [docId, userId]);
+    async removePermission(id: string) {
+        const result = await pool.query('DELETE FROM doc_permissions WHERE id = $1 RETURNING *', [id]);
         return result.rows[0];
     }
 
@@ -23,7 +23,20 @@ class Permissions {
     }
 
     async getPermissions(docId: string) {
-        const result = await pool.query('SELECT * FROM doc_permissions WHERE doc_id = $1', [docId]);
+        // const result = await pool.query('SELECT * FROM doc_permissions WHERE doc_id = $1', [docId]);
+        const result = await pool.query(
+            `SELECT 
+                dp.id,
+                u.id as user_id,
+                u.name,
+                u.email,
+                dp.role
+            FROM doc_permissions dp
+            JOIN users u ON dp.user_id = u.id
+            WHERE dp.doc_id = $1`,
+            [docId]
+        );
+
         return result.rows;
     }
 
