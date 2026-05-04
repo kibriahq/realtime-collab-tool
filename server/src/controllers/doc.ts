@@ -37,7 +37,8 @@ export const updateName = async (req: AuthRequest, res: Response) => {
 
 export const getDoc = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
-    const doc = await getDocById(id as string);
+    const userId = req.user!.id;
+    const doc = await getDocById(id as string, userId.toString());
     return res.status(200).json(doc);
 }
 

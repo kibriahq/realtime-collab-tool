@@ -30,7 +30,8 @@ const useEditor = ({ roomName }: { roomName: string }) => {
     const [provider, setProvider] = useState<HocuspocusProvider | null>(null);
 
     const [doc, setDoc] = useState<Doc | null>(null);
-
+    console.log(doc);
+    
     useEffect(() => {
         const fetchDoc = async () => {
             const doc = await getDoc(roomName);

@@ -4,10 +4,10 @@ import { Check, SquarePen, Trash, X } from "lucide-react";
 import AddUser from "./AddUser";
 import Avatars from "./ui/Avatars";
 import useEditorHeader from "@/hooks/useEditorHeader";
-import { Permission } from "@/lib/types/doc";
+import { DocAuthor, Permission } from "@/lib/types/doc";
 
 
-function Header({ title, docId, permissions }: { title: string, docId: string, permissions: Permission[] }) {
+function Header({ title, docId, permissions, isAuthor, author }: { title: string, docId: string, permissions: Permission[], isAuthor: boolean, author: DocAuthor }) {
     const {
         isEdit,
         setIsEdit,
@@ -24,30 +24,40 @@ function Header({ title, docId, permissions }: { title: string, docId: string, p
         <div className="flex justify-between items-center">
             <div className="flex items-center gap-2 justify-center">
                 <h1 className="text-3xl font-medium mb-2">
-                    {isEdit === false ? (
+                    {isAuthor ? (
+                        isEdit === false ? (
+                            <span className="flex items-center gap-3">
+                                {input}
+                                <span onClick={() => setIsEdit(!isEdit)} className="inline text-slate-400 hover:text-slate-500 cursor-pointer"><SquarePen size={20} /></span>
+                            </span>
+                        ) : (
+                            <div className="flex items-center gap-2">
+                                <input onChange={(e) => setInput(e.target.value)} type="text" value={input} className="border border-slate-400 rounded" />
+                                <button onClick={handleUpdateTitle} className="p-1 bg-green-700 hover:bg-green-800 text-white rounded cursor-pointer"><Check /></button>
+                                <button onClick={() => setIsEdit(!isEdit)} className="p-1 bg-red-700 hover:bg-red-800 text-white rounded cursor-pointer"><X /></button>
+                            </div>
+                        )
+                    ) : (
                         <span className="flex items-center gap-3">
                             {input}
-                            <span onClick={() => setIsEdit(!isEdit)} className="inline text-slate-400 hover:text-slate-500 cursor-pointer"><SquarePen size={20} /></span>
                         </span>
-                    ) : (
-                        <div className="flex items-center gap-2">
-                            <input onChange={(e) => setInput(e.target.value)} type="text" value={input} className="border border-slate-400 rounded" />
-                            <button onClick={handleUpdateTitle} className="p-1 bg-green-700 hover:bg-green-800 text-white rounded cursor-pointer"><Check /></button>
-                            <button onClick={() => setIsEdit(!isEdit)} className="p-1 bg-red-700 hover:bg-red-800 text-white rounded cursor-pointer"><X /></button>
-                        </div>
-                    )
-                    }
+                    )}
+
                 </h1 >
-                <button onClick={handleDeleteDoc} className="text-red-300 hover:text-red-400 pb-2 cursor-pointer">
-                    <Trash size={20} />
-                </button>
+                {isAuthor && (
+                    <button onClick={handleDeleteDoc} className="text-red-300 hover:text-red-400 pb-2 cursor-pointer">
+                        <Trash size={20} />
+                    </button>
+                )}
             </div>
 
             <div className="flex items-center gap-2">
-                <Avatars permissions={perms} handleRemovePermission={handleRemovePermission} />
-                <AddUser docId={docId} handleUpdatePermissions={handleUpdatePermissions} />
+                <Avatars permissions={perms} handleRemovePermission={handleRemovePermission} isAuthor={isAuthor} author={author} />
+                {isAuthor && (
+                    <AddUser docId={docId} handleUpdatePermissions={handleUpdatePermissions} />
+                )}
             </div>
-        </div>
+        </div >
     )
 }
 
