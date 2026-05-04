@@ -2,7 +2,7 @@ import { deleteDoc, updateDocName } from "@/api/doc";
 import { getAllPermissions, removePermission } from "@/api/docPermission";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Permission } from "@/app/(auth)/docs/[id]/EditorWrapper";
+import { Permission } from "@/hooks/useEditor";
 
 const useEditorHeader = (title: string, docId: string, permissions: Permission[]) => {
     const [isEdit, setIsEdit] = useState(false);
@@ -42,13 +42,11 @@ const useEditorHeader = (title: string, docId: string, permissions: Permission[]
         perms,
         title,
         docId,
-        // setPermissions,
         permissions,
         handleUpdateTitle,
         handleDeleteDoc,
         handleRemovePermission,
         handleUpdatePermissions,
-        // setDocId,
     }
 }
 
