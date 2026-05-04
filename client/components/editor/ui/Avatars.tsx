@@ -1,9 +1,14 @@
 import { DocAuthor } from '@/lib/types/doc';
-import { Trash } from 'lucide-react'
+import { Store } from '@/store';
+import { useStoreState } from 'easy-peasy';
+import { LogOut, Trash } from 'lucide-react'
+import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 
 const Avatars = ({ permissions, handleRemovePermission, isAuthor, author }: { permissions: any[], handleRemovePermission: (id: string) => void, isAuthor: boolean, author: DocAuthor }) => {
     const [menuOpen, setMenuOpen] = useState<Record<string, boolean>>({});
+    const {user} = useStoreState((state: Store) => state.auth);
+    const router = useRouter();
 
     const handleMenuOpen = (id: string | number) => {
         setMenuOpen((prev) => ({
@@ -11,6 +16,17 @@ const Avatars = ({ permissions, handleRemovePermission, isAuthor, author }: { pe
         }));
     }
 
+    const removePermission = (id: string) => {
+        handleRemovePermission(id);
+        setMenuOpen((prev) => ({
+            [id]: !prev[id]
+        }));
+
+        if(!isAuthor) {
+            router.push(`/`);
+        }
+    }
+    
     return (
         <>
             {!isAuthor && (
@@ -43,8 +59,13 @@ const Avatars = ({ permissions, handleRemovePermission, isAuthor, author }: { pe
                                 <p className="text-slate-500 font-body text-sm">{permission.email}</p>
                             </div>
                             {isAuthor && (
-                                <button onClick={() => handleRemovePermission(permission.id)} className="bg-red-200 text-red-500 hover:bg-red-300 p-1.5 rounded cursor-pointer">
+                                <button onClick={() => removePermission(permission.id)} className="bg-red-200 text-red-500 hover:bg-red-300 p-1.5 rounded cursor-pointer">
                                     <Trash size={18} />
+                                </button>
+                            )}
+                            {!isAuthor && user.id === permission.user_id && (
+                                <button onClick={() => removePermission(permission.id)} className="bg-red-200 text-red-500 hover:bg-red-300 p-1.5 rounded cursor-pointer">
+                                    <LogOut size={18} />
                                 </button>
                             )}
                         </div>

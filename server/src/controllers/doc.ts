@@ -18,8 +18,8 @@ export const create = async (req: AuthRequest, res: Response) => {
     const userId = req.user!.id;
     let name = 'New Document';
 
-    if(req.body) {
-        const { name:docName } = req.body as { name?: string };
+    if (req.body) {
+        const { name: docName } = req.body as { name?: string };
         name = docName as string;
     }
 
@@ -31,7 +31,8 @@ export const create = async (req: AuthRequest, res: Response) => {
 export const updateName = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const { name } = req.body;
-    const doc = await updateDoc(id as string, name);
+    const userId = req.user!.id;
+    const doc = await updateDoc(id as string, name, userId.toString());
     return res.status(200).json(doc);
 }
 
@@ -39,11 +40,32 @@ export const getDoc = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const userId = req.user!.id;
     const doc = await getDocById(id as string, userId.toString());
-    return res.status(200).json(doc);
+    if (!doc) {
+        return res.status(404).json({ message: 'Document not found' });
+    }
+
+    if (doc.user_id === userId) {
+        return res.status(200).json(doc);
+    }
+
+    let isPermission = false;
+
+    doc.permissions.forEach((perm: { user_id: string | number }) => {
+        if (perm.user_id === userId) {
+            isPermission = true;
+        }
+    });
+
+    if (isPermission) {
+        return res.status(200).json(doc);
+    }
+
+    return res.status(403).json({ message: 'You do not have permission to access this document' });
 }
 
 export const deleteDoc = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
-    const doc = await deleteDocById(id as string);
+    const userId = req.user!.id;
+    const doc = await deleteDocById(id as string, userId.toString());
     return res.status(200).json(doc);
 }

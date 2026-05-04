@@ -19,9 +19,14 @@ export const createDoc = async (name?: string, body?: string, userId?: string | 
     return doc;
 }
 
-export const updateDoc = async (id: string, name?: string) => {
-    const doc = await Doc.update(id, name ?? '');
-    return doc;
+export const updateDoc = async (id: string, name?: string, userId?: string) => {
+    const doc = await Doc.findById(id);
+    if (doc?.user_id != userId) {
+        throw Error('You do not have permission to update this document')
+    }
+
+    const updatedDoc = await Doc.update(id, name ?? '');
+    return updatedDoc;
 }
 
 export const getDocById = async (id: string, userId: string) => {
@@ -29,10 +34,14 @@ export const getDocById = async (id: string, userId: string) => {
     const permissions = await Permission.getPermissions(id);
     const author = await User.findUserById(doc.user_id);
     
-    return { ...doc, permissions, author, isAuthor: doc.user_id === userId };
+    return { ...doc, permissions, author, isAuthor: doc.user_id == userId };
 }
 
-export const deleteDocById = async (id: string) => {
-    const doc = await Doc.delete(id);
-    return doc;
+export const deleteDocById = async (id: string, userId: string) => {
+    const doc = await Doc.findById(id);
+    if (doc?.user_id != userId) {
+        throw Error('You do not have permission to delete this document')
+    }
+    const deletedDoc = await Doc.delete(id);
+    return deletedDoc;
 }
