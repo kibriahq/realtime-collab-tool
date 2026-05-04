@@ -3,6 +3,7 @@ import { getAllPermissions, removePermission } from "@/api/docPermission";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Permission } from "@/lib/types/doc";
+import { toast } from "sonner";
 
 const useEditorHeader = (title: string, docId: string, permissions: Permission[]) => {
     const [isEdit, setIsEdit] = useState(false);
@@ -12,21 +13,36 @@ const useEditorHeader = (title: string, docId: string, permissions: Permission[]
     const router = useRouter();
 
     const handleUpdateTitle = async () => {
-        await updateDocName(docId, input);
-        setIsEdit(false);
+        try {
+            await updateDocName(docId, input);
+            setIsEdit(false);
+            toast.success("Document name updated successfully");
+        } catch (error: any) {
+            toast.error(error?.response.data.message)
+        }
     }
 
     const handleDeleteDoc = async () => {
         if (confirm('Are you sure you want to delete this document?')) {
-            await deleteDoc(docId);
-            router.push('/');
+            try {
+                await deleteDoc(docId);
+                router.push('/');
+                toast.success("Document deleted successfully");
+            } catch (error: any) {
+                toast.error(error?.response.data.message)
+            }
         }
     }
 
     const handleRemovePermission = async (id: string,) => {
         if (confirm("Are you sure you want to remove this permission?")) {
-            await removePermission(id);
-            setPerms(perms.filter((p: any) => p.id !== id));
+            try {
+                await removePermission(id);
+                setPerms(perms.filter((p: any) => p.id !== id));
+                toast.success("Permission removed successfully");
+            } catch (error: any) {
+                toast.error(error?.response.data.message)
+            }
         }
     }
 

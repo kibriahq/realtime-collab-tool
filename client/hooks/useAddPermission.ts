@@ -1,5 +1,6 @@
 import { addPermission, userSearch } from "@/api/docPermission";
 import { useState } from "react";
+import { toast } from "sonner";
 
 type User = {
     id: string;
@@ -34,8 +35,13 @@ const useAddPermission = ({ docId, handleUpdatePermissions }: { docId: string, h
             }
             return user;
         }));
-        await addPermission(docId, userId);
-        handleUpdatePermissions();
+        try {
+            await addPermission(docId, userId);
+            handleUpdatePermissions();
+            toast.success("Permission added successfully");
+        } catch (error: any) {
+            toast.error(error?.response.data.message)
+        }
     }
 
     return {

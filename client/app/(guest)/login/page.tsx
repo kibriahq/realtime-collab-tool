@@ -8,6 +8,7 @@ import { redirect } from "next/navigation"
 import { useStoreActions } from "easy-peasy"
 import { setToken } from "@/utils/token"
 import axios from "axios"
+import { toast } from "sonner"
 
 
 type Inputs = {
@@ -24,7 +25,7 @@ export default function LoginPage() {
       const d = await login(data);
       setToken(d.token);
       loginState({...d.user, token: d.token})
-
+      toast.success("Login successful");
       redirect('/');
     } catch (error) {
       if (axios.isAxiosError(error)) {

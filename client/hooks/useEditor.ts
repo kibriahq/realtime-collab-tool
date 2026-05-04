@@ -18,27 +18,15 @@ import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import * as Y from "yjs";
 import { HocuspocusProvider } from "@hocuspocus/provider";
-import { getDoc } from "@/api/doc";
 import { useStoreState } from "easy-peasy";
 import { Store } from "@/store";
 import { Doc } from "@/lib/types/doc";
 
 const userColors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#A833FF', '#33FFF5', '#F5FF33', '#FF8C33', '#33FF8C', '#8C33FF'];
 
-const useEditor = ({ roomName }: { roomName: string }) => {
+const useEditor = ({ roomName, doc }: { roomName: string, doc: Doc }) => {
     const ydoc = useMemo(() => new Y.Doc(), []);
     const [provider, setProvider] = useState<HocuspocusProvider | null>(null);
-
-    const [doc, setDoc] = useState<Doc | null>(null);
-    console.log(doc);
-    
-    useEffect(() => {
-        const fetchDoc = async () => {
-            const doc = await getDoc(roomName);
-            setDoc(doc);
-        }
-        fetchDoc();
-    }, [roomName]);
 
     const { user } = useStoreState((state: Store) => state.auth);
 

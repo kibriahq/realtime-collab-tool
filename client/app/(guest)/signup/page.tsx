@@ -8,6 +8,7 @@ import { setToken } from "@/utils/token"
 import { useStoreActions } from "easy-peasy"
 import { redirect } from "next/navigation"
 import axios from "axios"
+import { toast } from "sonner"
 
 type Inputs = {
   name: string,
@@ -25,7 +26,7 @@ export default function SignupPage() {
       const user = await signup(data);
       // setToken(d.token); // no return token
       // signupState(user)
-
+      toast.success("Signup successful");
       redirect('/login');
     } catch (error) {
       if (axios.isAxiosError(error)) {
