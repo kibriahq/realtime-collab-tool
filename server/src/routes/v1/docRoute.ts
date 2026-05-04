@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { myDocs, create, updateName, getDoc, deleteDoc } from "../../controllers/doc.js";
+import { myDocs, sharedDocs, create, updateName, getDoc, deleteDoc } from "../../controllers/doc.js";
 import docPermissionsRouter from "./docPermissions.js";
 
 const router: Router = Router();
 
 router.get('/my', myDocs);
+router.get('/shared', sharedDocs);
 router.get('/:id', getDoc);
 router.post('/', create);
 router.post('/update/name/:id', updateName);

@@ -44,6 +44,26 @@ class Permissions {
         const result = await pool.query('SELECT * FROM doc_permissions WHERE doc_id = $1 AND user_id = $2', [docId, userId]);
         return result.rows[0];
     }
+
+    async findByUserId(userId: string) {
+        const result = await pool.query(
+            `SELECT 
+                d.id,
+                d.name,
+                d.body,
+                d.created_at,
+                d.updated_at,
+                dp.role,
+                u.id as user_id
+            FROM doc_permissions dp
+            JOIN docs d ON dp.doc_id = d.id
+            JOIN users u ON dp.user_id = u.id
+            WHERE dp.user_id = $1`,
+            [userId]
+        );
+
+        return result.rows;
+    }
 }
 
 export default new Permissions();

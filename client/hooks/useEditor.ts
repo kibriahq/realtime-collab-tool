@@ -21,24 +21,7 @@ import { HocuspocusProvider } from "@hocuspocus/provider";
 import { getDoc } from "@/api/doc";
 import { useStoreState } from "easy-peasy";
 import { Store } from "@/store";
-
-export type Permission = {
-    id: string | number,
-    user_id: string | number;
-    name: string,
-    email: string,
-    role: string
-}
-
-type Doc = {
-    id: string;
-    name: string;
-    body: string;
-    permissions: Permission[];
-    user_id: string | number;
-    created_at: string;
-    updated_at: string;
-}
+import { Doc } from "@/lib/types/doc";
 
 const userColors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#A833FF', '#33FFF5', '#F5FF33', '#FF8C33', '#33FF8C', '#8C33FF'];
 

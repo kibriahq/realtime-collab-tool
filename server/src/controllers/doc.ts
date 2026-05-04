@@ -1,10 +1,16 @@
 import type { Response } from "express"
-import { createDoc, getDocsByUser, updateDoc, getDocById, deleteDocById } from "../services/doc.js";
+import { createDoc, getDocsByUser, getDocsByPermission, updateDoc, getDocById, deleteDocById } from "../services/doc.js";
 import type { AuthRequest } from "../middlewares/auth.js";
 
 export const myDocs = async (req: AuthRequest, res: Response) => {
     const userId = req.user!.id;
     const docs = await getDocsByUser(userId.toString());
+    return res.status(200).json(docs);
+}
+
+export const sharedDocs = async (req: AuthRequest, res: Response) => {
+    const userId = req.user!.id;
+    const docs = await getDocsByPermission(userId.toString());
     return res.status(200).json(docs);
 }
 

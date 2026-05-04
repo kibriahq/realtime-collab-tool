@@ -1,18 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Link from "next/link"
-import { FileText, Plus, Users, FileWarning } from "lucide-react"
-import { createDoc, getMyDocs } from "@/api/doc"
+import { FileText, Plus, Users } from "lucide-react"
+import { createDoc, getMyDocs, getSharedDocs } from "@/api/doc"
 import { useRouter } from "next/navigation"
 import Navbar from "@/components/ui/Navbar"
-import { timeFormater } from "@/utils/timeFormater"
-
-type Doc = {
-  id: string
-  name: string
-  updated_at: string
-}
+import { Doc } from "@/lib/types/doc";
+import DocList from "@/components/ui/DocList"
 
 export default function Home() {
   const [docs, setDocs] = useState<Doc[]>([])
@@ -28,6 +22,14 @@ export default function Home() {
     fetchDocs();
   }, [])
 
+  useEffect(() => {
+    const fetchSharedDocs = async () => {
+      const docs = await getSharedDocs();
+      setShareDocs(docs);
+    }
+    fetchSharedDocs();
+  }, [])
+
   const createNewDoc = async () => {
     try {
       const d = await createDoc();
@@ -39,14 +41,14 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <main className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
       <Navbar />
 
       <div className="container mx-auto px-6 py-8">
         <section className="mb-10">
           <button
             onClick={createNewDoc}
-            className="group flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-2xl hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 transform hover:-translate-y-1"
+            className="group flex items-center gap-3 bg-linear-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-2xl hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 transform hover:-translate-y-1"
           >
             <div className="p-2 bg-white/20 rounded-xl">
               <Plus size={24} />
@@ -56,52 +58,20 @@ export default function Home() {
         </section>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          <section className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
-            <h2 className="text-xl font-bold mb-6 flex items-center gap-3 text-slate-800">
-              <div className="p-2 bg-indigo-100 rounded-xl">
-                <FileText size={20} className="text-indigo-600" />
-              </div>
-              My Documents
-            </h2>
-            <div className="grid gap-3">
-              {docs.map((doc) => (
-                <Link
-                  key={doc.id}
-                  href={`/docs/${doc.id}`}
-                  className="group p-4 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition-all duration-200"
-                >
-                  <div className="font-semibold text-slate-700 group-hover:text-indigo-700">
-                    {doc.name}
-                  </div>
-                  <div className="text-sm text-slate-400 mt-1">Last updated: {timeFormater(doc.updated_at)}</div>
-                </Link>
-              ))}
+          <DocList 
+            docs={docs} 
+            title="My Documents" 
+            icon={<FileText size={20} className="text-indigo-600" />}
+            iconBg="indigo"
+          />
 
-              {docs.length === 0 && (
-                <p className="text-slate-400 py-8 text-center">No documents found</p>
-              )}
-            </div>
-          </section>
+          <DocList 
+            docs={shareDocs} 
+            title="Shared Documents" 
+            icon={<Users size={20} className="text-amber-600" />}
+            iconBg="amber"
+          />
 
-          <section className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
-            <h2 className="text-xl font-bold mb-6 flex items-center gap-3 text-slate-800">
-              <div className="p-2 bg-amber-100 rounded-xl">
-                <Users size={20} className="text-amber-600" />
-              </div>
-              Shared Documents
-            </h2>
-            <div className="grid gap-3">
-              <div
-                className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200"
-              >
-                <div className="flex items-center gap-2 text-sm text-amber-700 mb-1">
-                  <FileWarning size={14} />
-                  <span className="font-medium">Notice:</span>
-                  <span className="text-amber-600">Still working on the features!</span>
-                </div>
-              </div>
-            </div>
-          </section>
         </div>
       </div>
     </main>
