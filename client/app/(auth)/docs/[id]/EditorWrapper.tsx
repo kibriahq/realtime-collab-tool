@@ -3,7 +3,7 @@
 import { getDoc } from "@/api/doc";
 import { Doc } from "@/lib/types/doc";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Loader from "@/components/ui/Loader";
@@ -26,6 +26,8 @@ export default function EditorWrapper({ roomName }: { roomName: string }) {
 
             if (error?.response.status === 403) {
                 router.push('/')
+            } else if (error?.response.status === 404) {
+                router.replace(`/404?msg=${error?.response.data.msg}`)
             } else {
                 throw new Error(error instanceof Error ? error.message : "Failed to fetch document")
             }

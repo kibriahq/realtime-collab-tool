@@ -31,11 +31,15 @@ export const updateDoc = async (id: string, name?: string, userId?: string) => {
 }
 
 export const getDocById = async (id: string, userId: string) => {
-    const doc = await Doc.findById(id);
-    const permissions = await Permission.getPermissions(id);
-    const author = await User.findUserById(doc.user_id);
-    
-    return { ...doc, permissions, author, isAuthor: doc.user_id == userId };
+    try {
+        const doc = await Doc.findById(id);
+        const permissions = await Permission.getPermissions(id);
+        const author = await User.findUserById(doc.user_id);
+        
+        return { ...doc, permissions, author, isAuthor: doc.user_id == userId };
+    } catch (err: any) {
+        throw error(err.message, 404)
+    }
 }
 
 export const deleteDocById = async (id: string, userId: string) => {

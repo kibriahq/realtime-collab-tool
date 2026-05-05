@@ -1,8 +1,12 @@
-import { GlobeX, TriangleAlert } from 'lucide-react'
+'use client'
+
+import { GlobeX } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import { useSearchParams } from 'next/navigation'
 
 const NotFound = () => {
+    const searchParams = useSearchParams();
+    const msg = searchParams.get('msg');
   return (
     <section>
             <div className="relative min-h-screen w-full">
@@ -16,7 +20,7 @@ const NotFound = () => {
                         Ooops...Error 404
                     </h1>
                     <p className="block antialiased font-sans text-xl font-normal leading-relaxed text-gray-700 mt-4 mb-6 w-full md:max-w-full lg:mb-8 lg:max-w-3xl">
-                        The page you’re looking for is no longer available!
+                        {msg || "The page you’re looking for is no longer available!"}
                     </p>
                     <div className="flex gap-2">
                         <Link href="/" className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full px-4 md:w-[9rem]" type="button">
