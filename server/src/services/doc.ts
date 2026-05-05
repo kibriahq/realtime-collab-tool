@@ -1,6 +1,7 @@
 import Doc from "../db/repositories/Doc.js";
 import Permission from "../db/repositories/Permission.js";
 import User from "../db/repositories/User.js";
+import error from "../utils/error.js";
 
 export const getDocsByUser = async (userId: string) => {
     const docs = await Doc.findByUserId(userId);
@@ -22,7 +23,7 @@ export const createDoc = async (name?: string, body?: string, userId?: string | 
 export const updateDoc = async (id: string, name?: string, userId?: string) => {
     const doc = await Doc.findById(id);
     if (doc?.user_id != userId) {
-        throw Error('You do not have permission to update this document')
+        throw error('You do not have permission to update this document')
     }
 
     const updatedDoc = await Doc.update(id, name ?? '');
@@ -40,7 +41,7 @@ export const getDocById = async (id: string, userId: string) => {
 export const deleteDocById = async (id: string, userId: string) => {
     const doc = await Doc.findById(id);
     if (doc?.user_id != userId) {
-        throw Error('You do not have permission to delete this document')
+        throw error('You do not have permission to delete this document')
     }
     const deletedDoc = await Doc.delete(id);
     return deletedDoc;

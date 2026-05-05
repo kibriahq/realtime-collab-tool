@@ -1,5 +1,6 @@
 import pool from "../db.js";
 import type { UserType } from "../../types/user.js";
+import error from "../../utils/error.js";
 
 class User {
 
@@ -24,7 +25,7 @@ class User {
         const allowedFields = ["id", "email", "name"];
 
         if (!allowedFields.includes(property)) {
-            throw new Error("Invalid property");
+            throw error("Invalid property", 400);
         }
 
         const { rows } = await pool.query<UserType>(`SELECT * FROM users WHERE ${property} = $1`, [

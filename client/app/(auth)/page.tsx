@@ -21,7 +21,7 @@ export default function Home() {
         const docs = await getMyDocs();
         setDocs(docs);
       } catch (error: any) {
-        toast.error(error?.response.data.message)
+        toast.error(error?.response.data.msg)
       }
     }
     fetchDocs();
@@ -33,7 +33,7 @@ export default function Home() {
         const docs = await getSharedDocs();
         setShareDocs(docs);
       } catch (error: any) {
-        toast.error(error?.response.data.message)
+        toast.error(error?.response.data.msg)
       }
     }
     fetchSharedDocs();
@@ -46,7 +46,7 @@ export default function Home() {
       router.push(`/docs/${d.id}`);
       toast.success("Document created successfully");
     } catch (error: any) {
-      toast.error(error?.response.data.message)
+      toast.error(error?.response.data.msg)
     }
   }
 

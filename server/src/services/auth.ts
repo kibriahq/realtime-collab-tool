@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Role } from "../types/user.js";
 import { createUser, findUserByEmail } from "./user.js";
+import error from "../utils/error.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "default-secret-key";
 
@@ -32,7 +33,7 @@ export const registerUser = async (name: string, email: string, password: string
     });
 
     if (!newUser) {
-        throw new Error("Failed to create user");
+        throw error("Failed to create user", 500);
     }
 
     return newUser;
@@ -42,12 +43,12 @@ export const loginUser = async (email: string, password: string) => {
 
     const user = await findUserByEmail(email);
     if (!user) {
-        throw new Error("Invalid credentials");
+        throw error("Invalid credentials", 404);
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-        throw new Error("Invalid credentials");
+        throw error("Invalid credentials", 401);
     }
 
     const userInfo = { id: user.id, name: user.name, email: user.email, role: user.role }

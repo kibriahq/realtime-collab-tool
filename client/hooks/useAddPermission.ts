@@ -40,7 +40,7 @@ const useAddPermission = ({ docId, handleUpdatePermissions }: { docId: string, h
             handleUpdatePermissions();
             toast.success("Permission added successfully");
         } catch (error: any) {
-            toast.error(error?.response.data.message)
+            toast.error(error?.response.data.msg)
         }
     }
 

@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { findUserById } from "../services/user.js";
+import error from "../utils/error.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "default-secret-key";
 
@@ -21,7 +22,7 @@ export const auth = async (
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        throw new Error("Unauthorized access");
+        throw error("Unauthorized access", 401);
     }
 
     const token = authHeader.split(" ")[1];
@@ -36,12 +37,12 @@ export const auth = async (
 
         const user = await findUserById(decoded.id);
         if (!user) {
-            throw new Error("Unauthorized access");
+            throw error("Unauthorized access", 401);
         }
 
         req.user = decoded;
         next();
-    } catch(error) {
-        next(error);
+    } catch(err) {
+        next(err);
     }
 };

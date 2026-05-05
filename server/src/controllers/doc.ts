@@ -1,6 +1,7 @@
 import type { Response } from "express"
 import { createDoc, getDocsByUser, getDocsByPermission, updateDoc, getDocById, deleteDocById } from "../services/doc.js";
 import type { AuthRequest } from "../middlewares/auth.js";
+import error from "../utils/error.js";
 
 export const myDocs = async (req: AuthRequest, res: Response) => {
     const userId = req.user!.id;
@@ -60,7 +61,7 @@ export const getDoc = async (req: AuthRequest, res: Response) => {
         return res.status(200).json(doc);
     }
 
-    return res.status(403).json({ message: 'You do not have permission to access this document' });
+    throw error('You do not have permission to access this document', 403)
 }
 
 export const deleteDoc = async (req: AuthRequest, res: Response) => {

@@ -18,7 +18,7 @@ const useEditorHeader = (title: string, docId: string, permissions: Permission[]
             setIsEdit(false);
             toast.success("Document name updated successfully");
         } catch (error: any) {
-            toast.error(error?.response.data.message)
+            toast.error(error?.response.data.msg)
         }
     }
 
@@ -29,7 +29,7 @@ const useEditorHeader = (title: string, docId: string, permissions: Permission[]
                 router.push('/');
                 toast.success("Document deleted successfully");
             } catch (error: any) {
-                toast.error(error?.response.data.message)
+                toast.error(error?.response.data.msg)
             }
         }
     }
@@ -41,7 +41,7 @@ const useEditorHeader = (title: string, docId: string, permissions: Permission[]
                 setPerms(perms.filter((p: any) => p.id !== id));
                 toast.success("Permission removed successfully");
             } catch (error: any) {
-                toast.error(error?.response.data.message)
+                toast.error(error?.response.data.msg)
             }
         }
     }

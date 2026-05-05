@@ -22,7 +22,7 @@ export default function EditorWrapper({ roomName }: { roomName: string }) {
             const doc = await getDoc(roomName);
             setDoc(doc);
         } catch (error: any) {
-            toast.error(error?.response.data.message)
+            toast.error(error?.response.data.msg);
 
             if (error?.response.status === 403) {
                 router.push('/')
