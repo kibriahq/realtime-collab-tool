@@ -2,7 +2,8 @@
 
 import { removeToken } from '@/utils/token'
 import { useStoreActions } from 'easy-peasy'
-import { LogOut } from 'lucide-react'
+import { LogOut, User } from 'lucide-react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
@@ -22,12 +23,12 @@ const Navbar = () => {
                     Collab Tool
                 </h1>
                 <nav className="flex items-center gap-4">
-                    <button onClick={handleLogout}
+                    <Link href="/profile"
                         className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors text-slate-700"
                     >
-                        <LogOut size={18} />
-                        <span className="hidden sm:inline">Logout</span>
-                    </button>
+                        <User size={18} />
+                        <span className="hidden sm:inline">Profile</span>
+                    </Link>
                 </nav>
             </div>
         </header>
