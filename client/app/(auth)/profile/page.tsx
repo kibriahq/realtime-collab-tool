@@ -1,12 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { User, Mail, Save, Loader2, Palette } from "lucide-react"
+import { User, Mail, Save, Loader2, Palette, LogOut } from "lucide-react"
 import Navbar from "@/components/ui/Navbar"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { getProfile, updateProfile } from "@/api/user"
 import { toast } from "sonner"
 import { useStoreActions } from "easy-peasy"
+import { useRouter } from 'next/navigation'
+import { removeToken } from "@/utils/token"
 
 type Profile = {
   name: string
@@ -18,6 +20,9 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile>({ name: "", email: "", color: "" })
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  const logout = useStoreActions((state: any) => state.auth.logout);
+  const router = useRouter();
 
   const { register, handleSubmit, watch, reset, setError, formState: { errors } } = useForm<Profile>({ defaultValues: profile });
 
@@ -65,125 +70,31 @@ export default function ProfilePage() {
       setIsEditing(false)
       setUser(data);
     } catch (error: any) {
-      // toast.error("Failed to update profile")
-
-      Object.entries(error.response.data.errors || {}).forEach(([path, { msg }]) => {
-
-        setError(path as keyof Profile, {
-          type: "server",
-          message: msg
+      const serverErrors = error?.response?.data?.errors;
+      if (serverErrors) {
+        Object.entries(serverErrors).forEach(([path, value]: [string, any]) => {
+          setError(path as keyof Profile, {
+            type: "server",
+            message: value.msg
+          })
         })
-      })
+      }
     } finally {
       setIsSaving(false)
     }
   }
 
+  
+  const handleLogout = () => {
+    logout();
+    removeToken();
+    toast.success("Logout successful");
+    router.push('/login');
+  }
+
   return (
     <main className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
       <Navbar />
-
-      <div className="flex items-center gap-2 hidden">
-        {/* Amber */}
-        <div className="bg-linear-to-r from-amber-500 to-amber-400 w-20 h-20">
-          <div className="bg-amber-200 text-amber-500">
-            <span className="text-amber-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Blue */}
-        <div className="bg-linear-to-r from-blue-500 to-blue-400 w-20 h-20">
-          <div className="bg-blue-200 text-blue-500">
-            <span className="text-blue-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Green */}
-        <div className="bg-linear-to-r from-green-500 to-green-400 w-20 h-20">
-          <div className="bg-green-200 text-green-500">
-            <span className="text-green-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Red */}
-        <div className="bg-linear-to-r from-red-500 to-red-400 w-20 h-20">
-          <div className="bg-red-200 text-red-500">
-            <span className="text-red-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Purple */}
-        <div className="bg-linear-to-r from-purple-500 to-purple-400 w-20 h-20">
-          <div className="bg-purple-200 text-purple-500">
-            <span className="text-purple-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Pink */}
-        <div className="bg-linear-to-r from-pink-500 to-pink-400 w-20 h-20">
-          <div className="bg-pink-200 text-pink-500">
-            <span className="text-pink-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Orange */}
-        <div className="bg-linear-to-r from-orange-500 to-orange-400 w-20 h-20">
-          <div className="bg-orange-200 text-orange-500">
-            <span className="text-orange-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Yellow */}
-        <div className="bg-linear-to-r from-yellow-500 to-yellow-400 w-20 h-20">
-          <div className="bg-yellow-200 text-yellow-500">
-            <span className="text-yellow-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Cyan */}
-        <div className="bg-linear-to-r from-cyan-500 to-cyan-400 w-20 h-20">
-          <div className="bg-cyan-200 text-cyan-500">
-            <span className="text-cyan-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Indigo */}
-        <div className="bg-linear-to-r from-indigo-500 to-indigo-400 w-20 h-20">
-          <div className="bg-indigo-200 text-indigo-500">
-            <span className="text-indigo-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Violet */}
-        <div className="bg-linear-to-r from-violet-500 to-violet-400 w-20 h-20">
-          <div className="bg-violet-200 text-violet-500">
-            <span className="text-violet-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Pink */}
-        <div className="bg-linear-to-r from-pink-500 to-pink-400 w-20 h-20">
-          <div className="bg-pink-200 text-pink-500">
-            <span className="text-pink-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-        {/* Purple */}
-        <div className="bg-linear-to-r from-purple-500 to-purple-400 w-20 h-20">
-          <div className="bg-purple-200 text-purple-500">
-            <span className="text-purple-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-
-        {/* Rose */}
-        <div className="bg-linear-to-r from-rose-500 to-rose-400 w-20 h-20">
-          <div className="bg-rose-200 text-rose-500">
-            <span className="text-rose-500 font-semibold text-4xl">J</span>
-          </div>
-        </div>
-
-      </div>
 
       <div className="container mx-auto px-6 py-8 max-w-3xl">
         <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
@@ -205,17 +116,17 @@ export default function ProfilePage() {
 
             <div className="flex gap-2">
               <button
-                onClick={() => setIsEditing(true)}
-                className="flex items-center justify-center gap-2 bg-white text-slate-500 border border-slate-400 px-4 py-2 rounded-xl hover:shadow-lg hover:shadow-indigo-500/30 transition-all text-sm"
+                onClick={handleLogout}
+                className="flex items-center justify-center gap-2 text-slate-500 hover:text-slate-700 border border-slate-400 hover:border-slate-600 px-4 py-2 rounded-xl hover:shadow-lg hover:shadow-indigo-500/30 transition-all text-sm cursor-pointer"
               >
-                {/* <User size={18} /> */}
-                Change Password
+                <LogOut size={18} />
+                Logout
               </button>
               <button
                 onClick={() => setIsEditing(true)}
-                className="flex items-center justify-center gap-2 bg-slate-900/80 hover:bg-slate-900/90 text-white px-4 py-2 rounded-xl hover:shadow-lg hover:shadow-indigo-500/30 transition-all text-sm"
+                className="flex items-center justify-center gap-2 bg-slate-900/80 hover:bg-slate-900/90 text-white px-4 py-2 rounded-xl hover:shadow-lg hover:shadow-indigo-500/30 transition-all text-sm cursor-pointer"
               >
-                {/* <User size={18} /> */}
+                <User size={18} />
                 Edit Profile
               </button>
             </div>
@@ -237,8 +148,8 @@ export default function ProfilePage() {
                       disabled={!isEditing}
                       className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
                     />
-                    {errors.name && <p className="text-red-500">{errors.name.message}</p>}
                   </div>
+                    {errors.name && <p className="text-red-500">{errors.name.message}</p>}
                 </div>
 
                 <div>
@@ -253,8 +164,8 @@ export default function ProfilePage() {
                       disabled={!isEditing}
                       className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
                     />
-                    {errors.email && <p className="text-red-500">{errors.email.message}</p>}
                   </div>
+                    {errors.email && <p className="text-red-500">{errors.email.message}</p>}
                 </div>
               </div>
 
@@ -292,8 +203,8 @@ export default function ProfilePage() {
                     <option value="neutral">Neutral</option>
                     <option value="stone">Stone</option>
                   </select>
-                  {errors.color && <p className="text-red-500">{errors.color.message}</p>}
                 </div>
+                  {errors.color && <p className="text-red-500">{errors.color.message}</p>}
               </div>
             </div>
             <div className="flex gap-3 pt-4">
