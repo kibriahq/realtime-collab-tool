@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
-import Link from "next/link"
-import { ArrowLeft, User, Mail, Save, Loader2, Palette } from "lucide-react"
+import { useEffect, useState } from "react"
+import { User, Mail, Save, Loader2, Palette } from "lucide-react"
 import Navbar from "@/components/ui/Navbar"
+import { SubmitHandler, useForm } from "react-hook-form"
 
 type Profile = {
   name: string
@@ -15,21 +15,39 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile>({
     name: "John Doe",
     email: "john@example.com",
-    color: "amber"
+    color: "green"
   })
-  const [isEditing, setIsEditing] = useState(false)
-  const [isSaving, setIsSaving] = useState(false)
-  const [message, setMessage] = useState("")
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<Profile>({
+    defaultValues: profile,
+    mode: "onChange"
+  });
+
+  const color = watch("color");
+
+  useEffect(() => {
+    setProfile((prev) => ({
+      ...prev,
+      color
+    }));
+  }, [color]);
 
   const handleSave = async () => {
-    setIsSaving(true)
-    setMessage("")
+    setIsSaving(true);
+    setMessage("");
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     setMessage("Profile updated successfully!")
     setIsEditing(false)
     setIsSaving(false)
+  }
+
+  const submitProfile: SubmitHandler<Profile> = (data) => {
+    console.log(data);
   }
 
   return (
@@ -174,110 +192,109 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="p-6 space-y-6">
-            {message && (
-              <div className="p-4 rounded-2xl bg-green-50 border border-green-200 text-green-700">
-                {message}
-              </div>
-            )}
+          <form onSubmit={handleSubmit(submitProfile)}>
+            <div className="p-6 space-y-6">
+              {message && (
+                <div className="p-4 rounded-2xl bg-green-50 border border-green-200 text-green-700">
+                  {message}
+                </div>
+              )}
 
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-2">
-                  Name
-                </label>
-                <div className="relative">
-                  <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="text"
-                    value={profile.name}
-                    onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                    disabled={!isEditing}
-                    className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
-                  />
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-2">
+                    Name
+                  </label>
+                  <div className="relative">
+                    <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      {...register("name")}
+                      disabled={!isEditing}
+                      className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-2">
+                    Email
+                  </label>
+                  <div className="relative">
+                    <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="email"
+                      {...register("email")}
+                      disabled={!isEditing}
+                      className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
+                    />
+                  </div>
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-600 mb-2">
-                  Email
+                  Color
                 </label>
                 <div className="relative">
-                  <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="email"
-                    value={profile.email}
-                    onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                  <Palette size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <select
+                    {...register("color")}
                     disabled={!isEditing}
                     className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
-                  />
+                  >
+                    <option value="amber">Amber</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="red">Red</option>
+                    <option value="purple">Purple</option>
+                    <option value="pink">Pink</option>
+                    <option value="orange">Orange</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="cyan">Cyan</option>
+                    <option value="indigo">Indigo</option>
+                    <option value="violet">Violet</option>
+                    <option value="fuchsia">Fuchsia</option>
+                    <option value="rose">Rose</option>
+                    <option value="lime">Lime</option>
+                    <option value="emerald">Emerald</option>
+                    <option value="teal">Teal</option>
+                    <option value="sky">Sky</option>
+                    <option value="slate">Slate</option>
+                    <option value="gray">Gray</option>
+                    <option value="zinc">Zinc</option>
+                    <option value="neutral">Neutral</option>
+                    <option value="stone">Stone</option>
+                  </select>
                 </div>
               </div>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-600 mb-2">
-                Color
-              </label>
-              <div className="relative">
-                <Palette size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                <select
-                  value={profile.color}
-                  onChange={(e) => setProfile({ ...profile, color: e.target.value })}
-                  disabled={!isEditing}
-                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
-                >
-                  <option value="amber">Amber</option>
-                  <option value="blue">Blue</option>
-                  <option value="green">Green</option>
-                  <option value="red">Red</option>
-                  <option value="purple">Purple</option>
-                  <option value="pink">Pink</option>
-                  <option value="orange">Orange</option>
-                  <option value="yellow">Yellow</option>
-                  <option value="cyan">Cyan</option>
-                  <option value="indigo">Indigo</option>
-                  <option value="violet">Violet</option>
-                  <option value="fuchsia">Fuchsia</option>
-                  <option value="rose">Rose</option>
-                  <option value="lime">Lime</option>
-                  <option value="emerald">Emerald</option>
-                  <option value="teal">Teal</option>
-                  <option value="sky">Sky</option>
-                  <option value="slate">Slate</option>
-                  <option value="gray">Gray</option>
-                  <option value="zinc">Zinc</option>
-                  <option value="neutral">Neutral</option>
-                  <option value="stone">Stone</option>
-                </select>
-              </div>
+            <div className="flex gap-3 pt-4">
+              {isEditing && (
+                <>
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="flex-1 flex items-center justify-center gap-2 bg-slate-100 text-slate-700 px-6 py-3 rounded-xl hover:bg-slate-200 transition-all"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSaving}
+                    className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-slate-600 to-slate-600 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-indigo-500/30 transition-all disabled:opacity-50"
+                  >
+                    {isSaving ? (
+                      <Loader2 size={18} className="animate-spin" />
+                    ) : (
+                      <Save size={18} />
+                    )}
+                    Save Changes
+                  </button>
+                </>
+              )}
             </div>
-          </div>
+          </form>
 
-          <div className="flex gap-3 pt-4">
-            {isEditing && (
-              <>
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="flex-1 flex items-center justify-center gap-2 bg-slate-100 text-slate-700 px-6 py-3 rounded-xl hover:bg-slate-200 transition-all"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-slate-600 to-slate-600 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-indigo-500/30 transition-all disabled:opacity-50"
-                >
-                  {isSaving ? (
-                    <Loader2 size={18} className="animate-spin" />
-                  ) : (
-                    <Save size={18} />
-                  )}
-                  Save Changes
-                </button>
-              </>
-            )}
-          </div>
         </div>
       </div>
     </main >
