@@ -1,96 +1,24 @@
 "use client"
 
-import { useEffect, useState } from "react"
+
 import { User, Mail, Save, Loader2, Palette, LogOut } from "lucide-react"
 import Navbar from "@/components/ui/Navbar"
-import { SubmitHandler, useForm } from "react-hook-form"
-import { getProfile, updateProfile } from "@/api/user"
-import { toast } from "sonner"
-import { useStoreActions } from "easy-peasy"
-import { useRouter } from 'next/navigation'
-import { removeToken } from "@/utils/token"
+import useProfile from "@/hooks/useProfile"
 
-type Profile = {
-  name: string
-  email: string
-  color: string
-}
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState<Profile>({ name: "", email: "", color: "" })
-  const [isEditing, setIsEditing] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
+  const {
+    profile,
+    isEditing,
+    isSaving,
+    register,
+    handleSubmit,
+    setIsEditing,
+    formState: { errors },
+    submitProfile,
+    handleLogout
+  } = useProfile();
 
-  const logout = useStoreActions((state: any) => state.auth.logout);
-  const router = useRouter();
-
-  const { register, handleSubmit, watch, reset, setError, formState: { errors } } = useForm<Profile>({ defaultValues: profile });
-
-  const color = watch("color");
-
-  const { setUser } = useStoreActions((state: any) => state.auth);
-
-  useEffect(() => {
-    setProfile((prev) => ({
-      ...prev,
-      color
-    }));
-  }, [color]);
-
-
-
-  useEffect(() => {
-
-    const fetchProfile = async () => {
-      try {
-        const data = await getProfile();
-        setProfile({
-          name: data.name || "",
-          email: data.email || "",
-          color: data.color || "amber"
-        });
-      } catch (error) {
-        console.error("Failed to fetch profile:", error);
-      }
-    };
-    fetchProfile();
-  }, []);
-
-  useEffect(() => {
-    reset(profile);
-  }, [profile]);
-
-  const submitProfile: SubmitHandler<Profile> = async (data) => {
-    setIsSaving(true);
-
-    try {
-      await updateProfile(data);
-      setProfile(data);
-      toast.success("Profile updated successfully!")
-      setIsEditing(false)
-      setUser(data);
-    } catch (error: any) {
-      const serverErrors = error?.response?.data?.errors;
-      if (serverErrors) {
-        Object.entries(serverErrors).forEach(([path, value]: [string, any]) => {
-          setError(path as keyof Profile, {
-            type: "server",
-            message: value.msg
-          })
-        })
-      }
-    } finally {
-      setIsSaving(false)
-    }
-  }
-
-  
-  const handleLogout = () => {
-    logout();
-    removeToken();
-    toast.success("Logout successful");
-    router.push('/login');
-  }
 
   return (
     <main className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
@@ -149,7 +77,7 @@ export default function ProfilePage() {
                       className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
                     />
                   </div>
-                    {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+                  {errors.name && <p className="text-red-500">{errors.name.message}</p>}
                 </div>
 
                 <div>
@@ -165,7 +93,7 @@ export default function ProfilePage() {
                       className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
                     />
                   </div>
-                    {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+                  {errors.email && <p className="text-red-500">{errors.email.message}</p>}
                 </div>
               </div>
 
@@ -204,7 +132,7 @@ export default function ProfilePage() {
                     <option value="stone">Stone</option>
                   </select>
                 </div>
-                  {errors.color && <p className="text-red-500">{errors.color.message}</p>}
+                {errors.color && <p className="text-red-500">{errors.color.message}</p>}
               </div>
             </div>
             <div className="flex gap-3 pt-4">

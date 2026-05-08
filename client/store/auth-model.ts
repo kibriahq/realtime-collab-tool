@@ -21,9 +21,6 @@ const authModel = persist<AuthModel>(
       state.token = user.token;
     }),
     setUser: action((state, user) => {
-      console.log(state.user);
-      console.log(user);
-      
       state.user = {...state.user, ...user};
     }),
     logout: action((state) => {
