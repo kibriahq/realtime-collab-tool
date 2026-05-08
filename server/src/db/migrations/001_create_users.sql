@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
         password VARCHAR(255) NOT NULL,
         avatar VARCHAR(255) DEFAULT NULL,
         role VARCHAR(50) NOT NULL DEFAULT 'user',
+        color VARCHAR(50) NOT NULL DEFAULT 'amber',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

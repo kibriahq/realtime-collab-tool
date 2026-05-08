@@ -5,6 +5,7 @@ export type UserType = {
     password: string;
     avatar?: string;
     role: Role;
+    color: string;
     createdAt?: Date;
     updatedAt?: Date;
 }

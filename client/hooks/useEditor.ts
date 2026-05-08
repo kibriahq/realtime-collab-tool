@@ -60,7 +60,7 @@ const useEditor = ({ roomName, doc }: { roomName: string, doc: Doc }) => {
                             provider,
                             user: {
                                 name: user.name,
-                                color: userColors[Math.floor(Math.random() * userColors.length)],
+                                color: user.color,
                             },
                         }),
                     ]

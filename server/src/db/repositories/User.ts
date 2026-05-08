@@ -64,6 +64,11 @@ class User {
             values.push(data.avatar);
         }
 
+        if (data.color !== undefined) {
+            fields.push(`color = $${paramIndex++}`);
+            values.push(data.color);
+        }
+
         if (fields.length === 0) return null;
 
         values.push(id);

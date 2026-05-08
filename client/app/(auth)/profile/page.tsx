@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import { User, Mail, Save, Loader2, Palette } from "lucide-react"
 import Navbar from "@/components/ui/Navbar"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { getProfile, updateProfile } from "@/api/user"
+import { toast } from "sonner"
 
 type Profile = {
   name: string
@@ -12,19 +14,11 @@ type Profile = {
 }
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState<Profile>({
-    name: "John Doe",
-    email: "john@example.com",
-    color: "green"
-  })
+  const [profile, setProfile] = useState<Profile>({ name: "", email: "", color: "" })
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [message, setMessage] = useState("");
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<Profile>({
-    defaultValues: profile,
-    mode: "onChange"
-  });
+  const { register, handleSubmit, watch, reset, setError, formState: { errors } } = useForm<Profile>({ defaultValues: profile });
 
   const color = watch("color");
 
@@ -35,19 +29,50 @@ export default function ProfilePage() {
     }));
   }, [color]);
 
-  const handleSave = async () => {
+
+
+  useEffect(() => {
+
+    const fetchProfile = async () => {
+      try {
+        const data = await getProfile();
+        setProfile({
+          name: data.name || "",
+          email: data.email || "",
+          color: data.color || "amber"
+        });
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  useEffect(() => {
+    reset(profile);
+  }, [profile]);
+
+  const submitProfile: SubmitHandler<Profile> = async (data) => {
     setIsSaving(true);
-    setMessage("");
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      await updateProfile(data);
+      setProfile(data);
+      toast.success("Profile updated successfully!")
+      setIsEditing(false)
+    } catch (error: any) {
+      // toast.error("Failed to update profile")
 
-    setMessage("Profile updated successfully!")
-    setIsEditing(false)
-    setIsSaving(false)
-  }
+      Object.entries(error.response.data.errors || {}).forEach(([path, { msg }]) => {
 
-  const submitProfile: SubmitHandler<Profile> = (data) => {
-    console.log(data);
+        setError(path as keyof Profile, {
+          type: "server",
+          message: msg
+        })
+      })
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -194,11 +219,6 @@ export default function ProfilePage() {
 
           <form onSubmit={handleSubmit(submitProfile)}>
             <div className="p-6 space-y-6">
-              {message && (
-                <div className="p-4 rounded-2xl bg-green-50 border border-green-200 text-green-700">
-                  {message}
-                </div>
-              )}
 
               <div className="space-y-4">
                 <div>
@@ -209,10 +229,11 @@ export default function ProfilePage() {
                     <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input
                       type="text"
-                      {...register("name")}
+                      {...register("name", { required: "Name is required" })}
                       disabled={!isEditing}
                       className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
                     />
+                    {errors.name && <p className="text-red-500">{errors.name.message}</p>}
                   </div>
                 </div>
 
@@ -224,10 +245,11 @@ export default function ProfilePage() {
                     <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input
                       type="email"
-                      {...register("email")}
+                      {...register("email", { required: "Email is required" })}
                       disabled={!isEditing}
                       className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
                     />
+                    {errors.email && <p className="text-red-500">{errors.email.message}</p>}
                   </div>
                 </div>
               </div>
@@ -239,7 +261,7 @@ export default function ProfilePage() {
                 <div className="relative">
                   <Palette size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                   <select
-                    {...register("color")}
+                    {...register("color", { required: "Color is required" })}
                     disabled={!isEditing}
                     className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
                   >
@@ -266,6 +288,7 @@ export default function ProfilePage() {
                     <option value="neutral">Neutral</option>
                     <option value="stone">Stone</option>
                   </select>
+                  {errors.color && <p className="text-red-500">{errors.color.message}</p>}
                 </div>
               </div>
             </div>
