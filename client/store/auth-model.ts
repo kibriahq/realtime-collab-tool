@@ -7,6 +7,7 @@ export type AuthModel = {
   isAuth: any;
   token: string | null;
   login: Action<AuthModel, {user: User, token: string}>;
+  setUser: Action<AuthModel, User>;
   logout: Action<AuthModel, User>;
 };
 
@@ -18,6 +19,12 @@ const authModel = persist<AuthModel>(
     login: action((state, user) => {
       state.user = user;
       state.token = user.token;
+    }),
+    setUser: action((state, user) => {
+      console.log(state.user);
+      console.log(user);
+      
+      state.user = {...state.user, ...user};
     }),
     logout: action((state) => {
       state.user = {};

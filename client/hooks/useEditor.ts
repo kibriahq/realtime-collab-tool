@@ -21,8 +21,7 @@ import { HocuspocusProvider } from "@hocuspocus/provider";
 import { useStoreState } from "easy-peasy";
 import { Store } from "@/store";
 import { Doc } from "@/lib/types/doc";
-
-const userColors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#A833FF', '#33FFF5', '#F5FF33', '#FF8C33', '#33FF8C', '#8C33FF'];
+import { colorObjects, ColorName } from "@/utils/colors";
 
 const useEditor = ({ roomName, doc }: { roomName: string, doc: Doc }) => {
     const ydoc = useMemo(() => new Y.Doc(), []);
@@ -60,7 +59,7 @@ const useEditor = ({ roomName, doc }: { roomName: string, doc: Doc }) => {
                             provider,
                             user: {
                                 name: user.name,
-                                color: user.color,
+                                color: colorObjects[user.color as ColorName] || colorObjects.blue,
                             },
                         }),
                     ]

@@ -30,7 +30,8 @@ class Permissions {
                 u.id as user_id,
                 u.name,
                 u.email,
-                dp.role
+                dp.role,
+                u.color
             FROM doc_permissions dp
             JOIN users u ON dp.user_id = u.id
             WHERE dp.doc_id = $1`,

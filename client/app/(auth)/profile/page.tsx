@@ -6,6 +6,7 @@ import Navbar from "@/components/ui/Navbar"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { getProfile, updateProfile } from "@/api/user"
 import { toast } from "sonner"
+import { useStoreActions } from "easy-peasy"
 
 type Profile = {
   name: string
@@ -21,6 +22,8 @@ export default function ProfilePage() {
   const { register, handleSubmit, watch, reset, setError, formState: { errors } } = useForm<Profile>({ defaultValues: profile });
 
   const color = watch("color");
+
+  const { setUser } = useStoreActions((state: any) => state.auth);
 
   useEffect(() => {
     setProfile((prev) => ({
@@ -60,6 +63,7 @@ export default function ProfilePage() {
       setProfile(data);
       toast.success("Profile updated successfully!")
       setIsEditing(false)
+      setUser(data);
     } catch (error: any) {
       // toast.error("Failed to update profile")
 

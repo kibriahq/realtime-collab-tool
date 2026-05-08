@@ -31,8 +31,8 @@ const Avatars = ({ permissions, handleRemovePermission, isAuthor, author }: { pe
         <>
             {!isAuthor && (
                 <div className="relative">
-                    <div onClick={() => handleMenuOpen(author.id)} className="w-10 h-10 rounded-full bg-orange-200 flex items-center justify-center cursor-pointer">
-                        <span className="text-orange-500 font-semibold text-xl">{author.name.charAt(0)}</span>
+                    <div onClick={() => handleMenuOpen(author.id)} className={`w-10 h-10 rounded-full bg-${author.color}-200 flex items-center justify-center cursor-pointer`}>
+                        <span className={`text-${author.color}-500 font-semibold text-xl`}>{author.name.charAt(0)}</span>
                     </div>
 
                     {menuOpen[author.id] && (
@@ -48,8 +48,8 @@ const Avatars = ({ permissions, handleRemovePermission, isAuthor, author }: { pe
 
             {permissions.map((permission: any) => (
                 <div key={permission.id} className="relative">
-                    <div onClick={() => handleMenuOpen(permission.id)} className="w-10 h-10 rounded-full bg-orange-200 flex items-center justify-center cursor-pointer">
-                        <span className="text-orange-500 font-semibold text-xl">{permission.name.charAt(0)}</span>
+                    <div onClick={() => handleMenuOpen(permission.id)} className={`w-10 h-10 rounded-full bg-${permission.color}-200 flex items-center justify-center cursor-pointer`}>
+                        <span className={`text-${permission.color}-500 font-semibold text-xl`}>{permission.name.charAt(0)}</span>
                     </div>
 
                     {menuOpen[permission.id] && (

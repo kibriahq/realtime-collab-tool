@@ -31,6 +31,12 @@ const Navbar = () => {
                         <User size={18} />
                         <span className="hidden sm:inline">Profile</span>
                     </Link>
+                    <button onClick={handleLogout}
+                        className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors text-slate-700"
+                    >
+                        <LogOut size={18} />
+                        <span className="hidden sm:inline">Logout</span>
+                    </button>
                 </nav>
             </div>
         </header>

@@ -51,7 +51,7 @@ export const loginUser = async (email: string, password: string) => {
         throw error("Invalid credentials", 401);
     }
 
-    const userInfo = { id: user.id, name: user.name, email: user.email, role: user.role }
+    const userInfo = { id: user.id, name: user.name, email: user.email, role: user.role, color: user.color }
     const token = jwt.sign(
         userInfo,
         JWT_SECRET,

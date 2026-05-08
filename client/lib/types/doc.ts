@@ -22,4 +22,5 @@ export type DocAuthor = {
     id: string | number;
     name: string;
     email: string;
+    color: string;
 }
