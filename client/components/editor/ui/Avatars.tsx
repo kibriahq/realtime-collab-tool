@@ -7,7 +7,7 @@ import { useState } from 'react'
 
 const Avatars = ({ permissions, handleRemovePermission, isAuthor, author }: { permissions: any[], handleRemovePermission: (id: string) => void, isAuthor: boolean, author: DocAuthor }) => {
     const [menuOpen, setMenuOpen] = useState<Record<string, boolean>>({});
-    const {user} = useStoreState((state: Store) => state.auth);
+    const { user } = useStoreState((state: Store) => state.auth);
     const router = useRouter();
 
     const handleMenuOpen = (id: string | number) => {
@@ -22,13 +22,19 @@ const Avatars = ({ permissions, handleRemovePermission, isAuthor, author }: { pe
             [id]: !prev[id]
         }));
 
-        if(!isAuthor) {
+        if (!isAuthor) {
             router.push(`/`);
         }
     }
-    
+
+    console.log(Object.keys(menuOpen)[0]);
+
     return (
         <>
+            <div
+                className={`fixed inset-0 z-40 ${menuOpen[Object.keys(menuOpen)[0]] ? 'block' : 'hidden'}`}
+                onClick={() => handleMenuOpen(Object.keys(menuOpen)[0])}
+            />
             {!isAuthor && (
                 <div className="relative">
                     <div onClick={() => handleMenuOpen(author.id)} className={`w-10 h-10 rounded-full bg-${author.color}-200 flex items-center justify-center cursor-pointer`}>
@@ -76,15 +82,5 @@ const Avatars = ({ permissions, handleRemovePermission, isAuthor, author }: { pe
         </>
     )
 }
-{/* <div className="w-10 h-10 rounded-full bg-orange-200 flex items-center justify-center cursor-pointer">
-            <span className="text-orange-500 font-semibold text-xl">J</span>
-        </div>
-        <div className="w-10 h-10 rounded-full bg-blue-200 flex items-center justify-center cursor-pointer">
-            <span className="text-blue-500 font-semibold text-xl">M</span>
-        </div> 
-        <div className="w-10 h-10 rounded-full bg-green-200 flex items-center justify-center cursor-pointer">
-            <span className="text-green-500 font-semibold text-xl">K</span>
-        </div>
-        */}
 
 export default Avatars
