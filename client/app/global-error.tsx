@@ -6,6 +6,7 @@ import ErrorIcon from "@/components/ui/errors/ErrorIcon"
 import ErrorTitle from "@/components/ui/errors/ErrorTitle"
 import ErrorMsg from "@/components/ui/errors/ErrorMsg"
 import RefreshBtn from "@/components/ui/errors/RefreshBtn"
+import ErrorWrapper from "@/components/ui/errors/ErrorWrapper"
 
 const GlobalError = ({ error, reset }: { error: Error, reset: () => void }) => {
     useEffect(() => {
@@ -13,21 +14,16 @@ const GlobalError = ({ error, reset }: { error: Error, reset: () => void }) => {
     }, [error])
 
     return (
-        <section>
-            <div className="relative min-h-screen w-full">
-                <div className="grid min-h-screen px-8"><div className="container relative z-10 my-auto mx-auto grid place-items-center text-center">
-                    <ErrorIcon>
-                        <TriangleAlert className="h-6 w-6" />
-                    </ErrorIcon>
-                    <ErrorTitle title="Oops...Error" />
-                    <ErrorMsg msg="We're Experiencing Technical Difficulties" />
-                    <div className="flex gap-2">
-                        <RefreshBtn onClick={reset} />
-                    </div>
-                </div>
-                </div>
+        <ErrorWrapper>
+            <ErrorIcon>
+                <TriangleAlert className="h-6 w-6" />
+            </ErrorIcon>
+            <ErrorTitle title="Oops...Error" />
+            <ErrorMsg msg="We're Experiencing Technical Difficulties" />
+            <div className="flex gap-2">
+                <RefreshBtn onClick={reset} />
             </div>
-        </section>
+        </ErrorWrapper>
     )
 }
 

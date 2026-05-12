@@ -10,8 +10,6 @@ import HomeHeader from "@/components/ui/HomeHeader";
 export default function Home() {
   const { docs, shareDocs, createNewDoc } = useHome();
 
-  throw Error('asdf')
-
   return (
     <main className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
       <Navbar />
