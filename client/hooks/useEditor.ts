@@ -20,7 +20,7 @@ import * as Y from "yjs";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import { useStoreState } from "easy-peasy";
 import { Store } from "@/store";
-import { Doc } from "@/lib/types/doc";
+import { Doc } from "@/types/doc";
 import { colorObjects, ColorName } from "@/utils/colors";
 
 const useEditor = ({ roomName, doc }: { roomName: string, doc: Doc }) => {

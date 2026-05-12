@@ -4,7 +4,7 @@ import { Check, SquarePen, Trash, X } from "lucide-react";
 import AddUser from "./AddUser";
 import Avatars from "./ui/Avatars";
 import useEditorHeader from "@/hooks/useEditorHeader";
-import { DocAuthor, Permission } from "@/lib/types/doc";
+import { DocAuthor, Permission } from "@/types/doc";
 
 
 function Header({ title, docId, permissions, isAuthor, author }: { title: string, docId: string, permissions: Permission[], isAuthor: boolean, author: DocAuthor }) {

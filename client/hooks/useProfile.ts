@@ -5,15 +5,7 @@ import { toast } from "sonner"
 import { useStoreActions } from "easy-peasy"
 import { useRouter } from 'next/navigation'
 import { removeToken } from "@/utils/token"
-
-type Profile = {
-    name: string
-    email: string
-    color: string
-    currentPassword?: string
-    newPassword?: string
-    confirmNewPassword?: string
-}
+import type { Profile } from "@/types/user";
 
 const useProfile = () => {
     const [profile, setProfile] = useState<Profile>({ name: "", email: "", color: "" })

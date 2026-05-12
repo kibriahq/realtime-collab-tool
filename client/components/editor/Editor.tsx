@@ -4,7 +4,7 @@ import useEditor from "@/hooks/useEditor";
 import { EditorContent } from "@tiptap/react";
 import Controls from "./Controls";
 import Header from "./Header";
-import { Doc } from "@/lib/types/doc";
+import { Doc } from "@/types/doc";
 import Loader from "../ui/Loader";
 
 

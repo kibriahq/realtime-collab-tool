@@ -2,14 +2,14 @@ import { deleteDoc, updateDocName } from "@/api/doc";
 import { getAllPermissions, removePermission } from "@/api/docPermission";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Permission } from "@/lib/types/doc";
+import { Permission } from "@/types/doc";
 import { toast } from "sonner";
 
 const useEditorHeader = (title: string, docId: string, permissions: Permission[]) => {
     const [isEdit, setIsEdit] = useState(false);
     const [input, setInput] = useState(title);
     const [perms, setPerms] = useState(permissions);
-    
+
     const router = useRouter();
 
     const handleUpdateTitle = async () => {

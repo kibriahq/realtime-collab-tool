@@ -1,4 +1,4 @@
-import { DocAuthor } from '@/lib/types/doc';
+import { DocAuthor } from '@/types/doc';
 import { Store } from '@/store';
 import { useStoreState } from 'easy-peasy';
 import { LogOut, Trash } from 'lucide-react'

@@ -1,7 +1,7 @@
 'use client'
 
 import { getDoc } from "@/api/doc";
-import { Doc } from "@/lib/types/doc";
+import { Doc } from "@/types/doc";
 import dynamic from "next/dynamic";
 import { notFound, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

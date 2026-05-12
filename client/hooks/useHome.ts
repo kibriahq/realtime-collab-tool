@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { createDoc, getMyDocs, getSharedDocs } from "@/api/doc"
 import { useRouter } from "next/navigation"
-import { Doc } from "@/lib/types/doc";
+import { Doc } from "@/types/doc";
 import { toast } from "sonner"
 
 const useHome = () => {

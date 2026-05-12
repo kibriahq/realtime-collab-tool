@@ -1,5 +1,5 @@
 import React from 'react'
-import { Doc } from '@/lib/types/doc'
+import { Doc } from '@/types/doc'
 import Link from 'next/link'
 import { timeFormater } from '@/utils/timeFormater'
 
@@ -10,7 +10,7 @@ type Props = {
     iconBg: string
 }
 
-const DocList = ({docs, title, icon, iconBg}: Props) => {
+const DocList = ({ docs, title, icon, iconBg }: Props) => {
     return (
         <section className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
             <h2 className="text-xl font-bold mb-6 flex items-center gap-3 text-slate-800">
