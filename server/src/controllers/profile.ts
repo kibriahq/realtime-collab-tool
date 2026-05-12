@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import type { AuthRequest } from "../middlewares/auth.js";
 import { findUserById, updateUser, deleteUser } from "../services/user.js";
 import error from "../utils/error.js";
+import bcrypt from "bcryptjs";
 
 export const getProfile = async (req: Request, res: Response, next: Function) => {
     try {
@@ -24,8 +25,8 @@ export const updateProfile = async (req: Request, res: Response, next: Function)
     try {
         const authReq = req as AuthRequest;
         const userId = authReq.user!.id;
-        const data = req.body as { name?: string; avatar?: string; color?: string };
-
+        const data = req.body as { name?: string; avatar?: string; color?: string, newPassword?: string, currentPassword?: string, confirmNewPassword?: string };
+        
         const updatedUser = await updateUser(userId, data);
         if (!updatedUser) {
             throw error("User not found", 404);

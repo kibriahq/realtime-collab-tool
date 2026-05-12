@@ -1,7 +1,7 @@
 "use client"
 
 
-import { User, Mail, Save, Loader2, Palette, LogOut } from "lucide-react"
+import { User, Mail, Save, Loader2, Palette, LogOut, Key } from "lucide-react"
 import Navbar from "@/components/ui/Navbar"
 import useProfile from "@/hooks/useProfile"
 
@@ -95,45 +95,110 @@ export default function ProfilePage() {
                   </div>
                   {errors.email && <p className="text-red-500">{errors.email.message}</p>}
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-2">
+                    Color
+                  </label>
+                  <div className="relative">
+                    <Palette size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <select
+                      {...register("color", { required: "Color is required" })}
+                      disabled={!isEditing}
+                      className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
+                    >
+                      <option value="amber">Amber</option>
+                      <option value="blue">Blue</option>
+                      <option value="green">Green</option>
+                      <option value="red">Red</option>
+                      <option value="purple">Purple</option>
+                      <option value="pink">Pink</option>
+                      <option value="orange">Orange</option>
+                      <option value="yellow">Yellow</option>
+                      <option value="cyan">Cyan</option>
+                      <option value="indigo">Indigo</option>
+                      <option value="violet">Violet</option>
+                      <option value="fuchsia">Fuchsia</option>
+                      <option value="rose">Rose</option>
+                      <option value="lime">Lime</option>
+                      <option value="emerald">Emerald</option>
+                      <option value="teal">Teal</option>
+                      <option value="sky">Sky</option>
+                      <option value="slate">Slate</option>
+                      <option value="gray">Gray</option>
+                      <option value="zinc">Zinc</option>
+                      <option value="neutral">Neutral</option>
+                      <option value="stone">Stone</option>
+                    </select>
+                  </div>
+                  {errors.color && <p className="text-red-500">{errors.color.message}</p>}
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-2">
-                  Color
-                </label>
-                <div className="relative">
-                  <Palette size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <select
-                    {...register("color", { required: "Color is required" })}
-                    disabled={!isEditing}
-                    className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
-                  >
-                    <option value="amber">Amber</option>
-                    <option value="blue">Blue</option>
-                    <option value="green">Green</option>
-                    <option value="red">Red</option>
-                    <option value="purple">Purple</option>
-                    <option value="pink">Pink</option>
-                    <option value="orange">Orange</option>
-                    <option value="yellow">Yellow</option>
-                    <option value="cyan">Cyan</option>
-                    <option value="indigo">Indigo</option>
-                    <option value="violet">Violet</option>
-                    <option value="fuchsia">Fuchsia</option>
-                    <option value="rose">Rose</option>
-                    <option value="lime">Lime</option>
-                    <option value="emerald">Emerald</option>
-                    <option value="teal">Teal</option>
-                    <option value="sky">Sky</option>
-                    <option value="slate">Slate</option>
-                    <option value="gray">Gray</option>
-                    <option value="zinc">Zinc</option>
-                    <option value="neutral">Neutral</option>
-                    <option value="stone">Stone</option>
-                  </select>
-                </div>
-                {errors.color && <p className="text-red-500">{errors.color.message}</p>}
-              </div>
+              {isEditing && (
+                <>
+                  <div className="flex items-center justify-between">
+                    <div className="grow border-b border-slate-300"></div>
+                    <p className="text-slate-600 px-4">Or change password</p>
+                    <div className="grow border-b border-slate-300"></div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-600 mb-2">
+                        Current Password
+                      </label>
+                      <div className="relative">
+                        <Key size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <input
+                          placeholder="********"
+                          type="password"
+                          {...register("currentPassword")}
+                          disabled={!isEditing}
+                          className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
+                        />
+                      </div>
+                      {errors.currentPassword && <p className="text-red-500">{errors.currentPassword.message}</p>}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-slate-600 mb-2">
+                        New Password
+                      </label>
+                      <div className="relative">
+                        <Key size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <input
+                          placeholder="********"
+                          type="password"
+                          {...register("newPassword")}
+                          disabled={!isEditing}
+                          className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
+                        />
+                      </div>
+                      {errors.newPassword && <p className="text-red-500">{errors.newPassword.message}</p>}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-slate-600 mb-2">
+                        Confirm New Password
+                      </label>
+                      <div className="relative">
+                        <Key size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <input
+                          placeholder="********"
+                          type="password"
+                          {...register("confirmNewPassword")}
+                          disabled={!isEditing}
+                          className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:text-slate-500"
+                        />
+                      </div>
+                      {errors.confirmNewPassword && <p className="text-red-500">{errors.confirmNewPassword.message}</p>}
+                    </div>
+
+                  </div>
+                </>
+              )}
+
             </div>
             <div className="flex gap-3 pt-4">
               {isEditing && (
@@ -147,7 +212,7 @@ export default function ProfilePage() {
                   <button
                     type="submit"
                     disabled={isSaving}
-                    className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-slate-600 to-slate-600 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-indigo-500/30 transition-all disabled:opacity-50"
+                    className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-slate-600 to-slate-600 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-indigo-500/30 transition-all disabled:opacity-50"
                   >
                     {isSaving ? (
                       <Loader2 size={18} className="animate-spin" />

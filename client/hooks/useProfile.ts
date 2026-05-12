@@ -10,6 +10,9 @@ type Profile = {
     name: string
     email: string
     color: string
+    currentPassword?: string
+    newPassword?: string
+    confirmNewPassword?: string
 }
 
 const useProfile = () => {
@@ -30,7 +33,10 @@ const useProfile = () => {
         setProfile((prev) => ({
             name: watch("name") || prev.name,
             email: watch("email") || prev.email,
-            color
+            color,
+            currentPassword: watch("currentPassword") || prev.currentPassword,
+            newPassword: watch("newPassword") || prev.newPassword,
+            confirmNewPassword: watch("confirmNewPassword") || prev.confirmNewPassword
         }));
     }, [color]);
 
@@ -44,7 +50,10 @@ const useProfile = () => {
                 setProfile({
                     name: data.name || "",
                     email: data.email || "",
-                    color: data.color || "amber"
+                    color: data.color || "amber",
+                    currentPassword: "",
+                    newPassword: "",
+                    confirmNewPassword: ""
                 });
             } catch (error) {
                 console.error("Failed to fetch profile:", error);

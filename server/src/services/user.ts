@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import UserRepo from "../db/repositories/User.js";
 import type { UserType } from '../types/user.js';
 
@@ -21,7 +22,10 @@ export const createUser = async (data: UserType): Promise<UserType | null> => {
   return UserRepo.createUser(data);
 };
 
-export const updateUser = async (id: number, data: Partial<UserType>): Promise<UserType | null> => {
+export const updateUser = async (id: number, data: Partial<UserType & {newPassword?: string}>): Promise<UserType | null> => {
+  if(data.newPassword){
+    data.password = await bcrypt.hash(data.newPassword, 10);
+  }
   return UserRepo.updateUser(id, data);
 };
 
