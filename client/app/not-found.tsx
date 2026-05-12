@@ -17,7 +17,7 @@ const NotFound = () => {
                         </span>
                     </button>
                     <h1 className="block antialiased tracking-normal font-sans text-4xl font-semibold leading-tight text-blue-gray-900 mt-5 !leading-snug lg:text-5xl">
-                        Ooops...Error 404
+                        Oops...Error 404
                     </h1>
                     <p className="block antialiased font-sans text-xl font-normal leading-relaxed text-gray-700 mt-4 mb-6 w-full md:max-w-full lg:mb-8 lg:max-w-3xl">
                         {msg || "The page you’re looking for is no longer available!"}
