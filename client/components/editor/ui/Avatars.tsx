@@ -3,7 +3,7 @@ import { Store } from '@/store';
 import { useStoreState } from 'easy-peasy';
 import { LogOut, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation';
-import { useState } from 'react'
+import { useState } from 'react';
 
 const Avatars = ({ permissions, handleRemovePermission, isAuthor, author }: { permissions: any[], handleRemovePermission: (id: string) => void, isAuthor: boolean, author: DocAuthor }) => {
     const [menuOpen, setMenuOpen] = useState<Record<string, boolean>>({});

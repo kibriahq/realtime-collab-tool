@@ -21,7 +21,7 @@ function Header({ title, docId, permissions, isAuthor, author }: { title: string
     } = useEditorHeader(title, docId, permissions);
 
     return (
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col min-[450px]:flex-row justify-between items-start">
             <div className="flex items-center gap-2 justify-center">
                 <h1 className="text-3xl font-medium mb-2">
                     {isAuthor ? (
@@ -32,9 +32,9 @@ function Header({ title, docId, permissions, isAuthor, author }: { title: string
                             </span>
                         ) : (
                             <div className="flex items-center gap-2">
-                                <input onChange={(e) => setInput(e.target.value)} type="text" value={input} className="border border-slate-400 rounded" />
-                                <button onClick={handleUpdateTitle} className="p-1 bg-green-700 hover:bg-green-800 text-white rounded cursor-pointer"><Check /></button>
-                                <button onClick={() => setIsEdit(!isEdit)} className="p-1 bg-red-700 hover:bg-red-800 text-white rounded cursor-pointer"><X /></button>
+                                <input onChange={(e) => setInput(e.target.value)} type="text" value={input} className="border border-slate-400 rounded w-[200px] sm:w-[300px]" />
+                                <button onClick={handleUpdateTitle} className="p-1 bg-gray-500 hover:bg-green-800 text-white rounded cursor-pointer"><Check /></button>
+                                <button onClick={() => setIsEdit(!isEdit)} className="p-1 bg-gray-500 hover:bg-red-800 text-white rounded cursor-pointer"><X /></button>
                             </div>
                         )
                     ) : (
