@@ -27,8 +27,6 @@ const Avatars = ({ permissions, handleRemovePermission, isAuthor, author }: { pe
         }
     }
 
-    console.log(Object.keys(menuOpen)[0]);
-
     return (
         <>
             <div
