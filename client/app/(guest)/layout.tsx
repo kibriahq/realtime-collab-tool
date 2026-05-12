@@ -4,13 +4,14 @@ import AuthHeader from '@/components/auth/AuthHeader'
 import AuthLink from '@/components/auth/AuthLink'
 import { Store } from '@/store'
 import { useStoreState } from 'easy-peasy'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   const { isAuth } = useStoreState((state: Store) => state.auth)
+  const router = useRouter()
 
   if (isAuth) {
-    redirect('/')
+    router.replace('/');
   }
   return (
     <main className="flex min-h-screen items-center justify-center overflow-hidden bg-surface p-4 text-on-surface md:p-0">
@@ -30,16 +31,6 @@ const layout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </section>
       </div>
-
-      {/* <div className="fixed bottom-8 right-8 hidden md:block">
-        <button
-          className="ghost-border flex h-12 w-12 items-center justify-center rounded-full bg-surface-container-lowest shadow-[0_12px_32px_rgba(62,50,211,0.12)] transition-colors hover:bg-surface-container-low"
-          type="button"
-          aria-label="Support"
-        >
-          <HelpCircle className="h-6 w-6 text-primary" />
-        </button>
-      </div> */}
     </main>
   )
 }
