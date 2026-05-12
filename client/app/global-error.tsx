@@ -1,8 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { Home, RefreshCcw, TriangleAlert } from "lucide-react"
-import Link from "next/link"
+import { TriangleAlert } from "lucide-react"
 
 const GlobalError = ({ error, reset }: { error: Error, reset: () => void }) => {
     useEffect(() => {
@@ -19,7 +18,7 @@ const GlobalError = ({ error, reset }: { error: Error, reset: () => void }) => {
                         </span>
                     </button>
                     <h1 className="block antialiased tracking-normal font-sans text-4xl font-semibold leading-tight text-blue-gray-900 mt-5 !leading-snug lg:text-5xl">
-                        Ooops...Error
+                        Oops...Error
                     </h1>
                     <p className="block antialiased font-sans text-xl font-normal leading-relaxed text-gray-700 mt-4 mb-6 w-full md:max-w-full lg:mb-8 lg:max-w-3xl">
                         We're Experiencing Technical Difficulties
