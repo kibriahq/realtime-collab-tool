@@ -2,11 +2,7 @@
 
 import { Store } from "@/store";
 import { isTokenExpired } from "@/utils/auth";
-import {
-    useStoreActions,
-    useStoreState,
-    useStoreRehydrated,
-} from "easy-peasy";
+import { useStoreActions, useStoreState, useStoreRehydrated } from "easy-peasy";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
