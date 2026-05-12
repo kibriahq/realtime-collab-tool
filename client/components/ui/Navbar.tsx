@@ -9,7 +9,7 @@ const Navbar = () => {
             <div className="container mx-auto px-6 py-4 flex items-center justify-between">
                 <Link href="/">
                     <h1 className="text-2xl font-bold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                        Collab Tool
+                        CollabTool
                     </h1>
                 </Link>
                 <nav className="flex items-center gap-4">
