@@ -4,12 +4,7 @@ import { findUserByEmail, findUserById } from "../../../services/user.js";
 import type { Request, Response, NextFunction } from 'express';
 import type { AuthRequest } from "../../../middlewares/auth.js";
 import bcrypt from 'bcryptjs';
-
-const validColors = [
-    'amber', 'blue', 'green', 'red', 'purple', 'pink', 'orange', 'yellow',
-    'cyan', 'indigo', 'violet', 'fuchsia', 'rose', 'lime', 'emerald', 'teal',
-    'sky', 'slate', 'gray', 'zinc', 'neutral', 'stone'
-];
+import { colors } from '../../../utils/colors.js';
 
 export const updateProfileValidator = [
     check('name')
@@ -38,8 +33,8 @@ export const updateProfileValidator = [
         }),
     check('color')
         .optional()
-        .isIn(validColors)
-        .withMessage(`Color must be one of: ${validColors.join(', ')}`)
+        .isIn(colors)
+        .withMessage(`Provided color is not valid`)
         .trim(),
     check('currentPassword')
         .optional({ values: 'falsy' })

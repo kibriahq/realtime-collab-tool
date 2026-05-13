@@ -36,8 +36,8 @@ class User {
 
     createUser = async (data: UserType): Promise<UserType | null> => {
         const { rows } = await pool.query<UserType>(
-            "INSERT INTO users (name, email, password, avatar) VALUES ($1, $2, $3, $4) RETURNING *",
-            [data.name, data.email, data.password, data.avatar || null]
+            "INSERT INTO users (name, email, password, avatar, color) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+            [data.name, data.email, data.password, data.avatar || null, data.color || "amber"]
         );
         return rows[0] || null;
     };

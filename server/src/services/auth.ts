@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { Role } from "../types/user.js";
 import { createUser, findUserByEmail } from "./user.js";
 import error from "../utils/error.js";
+import { getRandomColor } from "../utils/colors.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "default-secret-key";
 
@@ -28,6 +29,7 @@ export const registerUser = async (name: string, email: string, password: string
         email: email,
         password: hashedPassword,
         role: Role.user,
+        color: getRandomColor(),
         createdAt: new Date(),
         updatedAt: new Date(),
     });
