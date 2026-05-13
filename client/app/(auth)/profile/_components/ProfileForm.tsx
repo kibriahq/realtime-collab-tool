@@ -61,7 +61,7 @@ const ProfileForm = ({ isEditing, isSaving, register, handleSubmit, setIsEditing
                                 placeholder="Your current password"
                                 type="password"
                                 icon={<Key size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />}
-                                register={register("currentPassword", { required: "Current password is required" })}
+                                register={register("currentPassword")}
                                 error={errors.currentPassword}
                                 isEditing={isEditing}
                             />
@@ -72,7 +72,7 @@ const ProfileForm = ({ isEditing, isSaving, register, handleSubmit, setIsEditing
                                 placeholder="Enter new password"
                                 type="password"
                                 icon={<Key size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />}
-                                register={register("newPassword", { required: "New password is required" })}
+                                register={register("newPassword")}
                                 error={errors.newPassword}
                                 isEditing={isEditing}
                             />
@@ -83,7 +83,7 @@ const ProfileForm = ({ isEditing, isSaving, register, handleSubmit, setIsEditing
                                 placeholder="Confirm new password"
                                 type="password"
                                 icon={<Key size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />}
-                                register={register("confirmNewPassword", { required: "Confirm new password is required" })}
+                                register={register("confirmNewPassword")}
                                 error={errors.confirmNewPassword}
                                 isEditing={isEditing}
                             />
