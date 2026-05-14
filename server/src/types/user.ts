@@ -1,4 +1,4 @@
-import { UserRole } from "../../generated/prisma/client.js";
+import { UserRole } from "@prisma/client";
 
 export type UserType = {
     id?: number;
