@@ -31,7 +31,7 @@ const useEditor = ({ roomName, doc }: { roomName: string, doc: Doc }) => {
 
     useEffect(() => {
         const hocusProvider = new HocuspocusProvider({
-            url: "ws://localhost:1234",
+            url: process.env.NEXT_PUBLIC_HOCUSPOCUS_URL!,
             name: roomName,
             document: ydoc,
             onSynced() {
