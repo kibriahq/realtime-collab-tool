@@ -34,12 +34,12 @@ const Avatars = ({ permissions, handleRemovePermission, isAuthor, author }: { pe
                 onClick={() => handleMenuOpen(Object.keys(menuOpen)[0])}
             />
             {!isAuthor && (
-                <div className="relative">
-                    <div onClick={() => handleMenuOpen(author.id)} className={`w-10 h-10 rounded-full bg-${author.color}-200 flex items-center justify-center cursor-pointer`}>
+                <div className="relative z-30">
+                    <div onClick={() => handleMenuOpen('x')} className={`w-10 h-10 rounded-full bg-${author.color}-200 flex items-center justify-center cursor-pointer`}>
                         <span className={`text-${author.color}-500 font-semibold text-xl`}>{author.name.charAt(0)}</span>
                     </div>
 
-                    {menuOpen[author.id] && (
+                    {menuOpen['x'] && (
                         <div className="flex items-center justify-between gap-2 absolute bg-slate-200 border-slate-500 z-40 top-11 -right-10 h-[70px] rounded p-2 px-3">
                             <div className="flex items-start flex-col">
                                 <p className="text-slate-500 font-semibold text-md">{author.name}</p>
