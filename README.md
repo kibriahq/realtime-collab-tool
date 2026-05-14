@@ -1,87 +1,324 @@
 # Collab Tool
 
-A real-time collaborative workspace application that allows users to create teams, coordinate projects, and co-edit documents seamlessly. Built with a modern tech stack focused on high-performance collaboration and rich text editing.
+Collab Tool is a real-time collaborative document editor. It combines a Next.js frontend, an Express/TypeScript backend, PostgreSQL persistence, and Hocuspocus/Yjs WebSocket synchronization so authenticated users can create, share, and co-edit rich text documents.
 
-![Collab Tool](/editorss.png)
+![Collab Tool](./editorss.png)
 
 ## Features
 
-- **Real-time Collaboration**: Co-edit documents simultaneously with other team members in real-time, complete with multiplayer cursors.
-- **Rich Text Editing**: Notion-style block-based editor supporting formatting, headings, lists, tables, tasks, and more.
-- **Team & Project Management**: Organize your work by creating teams and dividing work into projects.
-- **Authentication**: Secure user signup, login, and access control.
+- User signup, login, JWT authentication, and protected routes.
+- Personal dashboard with owned and shared documents.
+- Rich text editor with headings, lists, task lists, code blocks, blockquotes, tables, links, colors, highlights, and horizontal rules.
+- Real-time collaborative editing with Yjs document state.
+- Multiplayer cursors using user names and profile colors.
+- Document sharing and permission management.
+- Profile management, including name, email, color, and password updates.
+- PostgreSQL-backed document metadata, permissions, users, and binary Yjs state.
+
+## Architecture
+
+```text
+collab-tool/
++-- client/              # Next.js frontend application
++-- server/              # Express API and Hocuspocus collaboration server
++-- editorss.png         # Project screenshot used in documentation
++-- README.md            # Main project documentation
+```
+
+The frontend and backend are separate applications:
+
+- `client` runs the browser app on `http://localhost:3000`.
+- `server` runs both the REST API and WebSocket collaboration endpoint on `http://localhost:4000` by default.
+
+The editor uses the document ID as the Hocuspocus room name. The server stores Yjs binary updates in the `docs.body` column.
 
 ## Tech Stack
 
-### Frontend (Client)
-- **Framework**: [Next.js](https://nextjs.org/) & [React](https://react.dev/)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **Editor**: [Tiptap](https://tiptap.dev/) & [Yjs](https://yjs.dev/) for real-time collaboration and cursors
-- **State Management**: [Easy Peasy](https://easy-peasy.vercel.app/)
-- **Forms**: [React Hook Form](https://react-hook-form.com/)
-- **Icons**: [Lucide React](https://lucide.dev/)
+### Frontend
 
-### Backend (Server)
-- **Framework**: [Node.js](https://nodejs.org/) & [Express](https://expressjs.com/)
-- **Database**: [PostgreSQL](https://www.postgresql.org/)
-- **Collaboration Server**: [Hocuspocus](https://tiptap.dev/hocuspocus) (Yjs WebSocket backend integration)
-- **Authentication**: JWT (`jsonwebtoken`) & `bcryptjs`
-- **Language**: TypeScript
+- Next.js 16 with App Router
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Tiptap 3
+- Yjs and Hocuspocus provider
+- Easy Peasy with localStorage persistence
+- React Hook Form
+- Axios
+- Sonner
+- Lucide React
 
-## Getting Started
+### Backend
 
-### Prerequisites
+- Node.js
+- TypeScript
+- Express 5
+- PostgreSQL
+- Prisma 7 with `@prisma/adapter-pg`
+- JWT and bcryptjs
+- express-validator
+- Hocuspocus, Yjs, and crossws
+- Morgan
 
-- Node.js (v20+)
-- PostgreSQL database
-- `pnpm` package manager (recommended)
+## Prerequisites
 
-### Setup & Installation
+- Node.js 20 or newer
+- pnpm
+- PostgreSQL
+- Git
 
-1. **Clone the repository**
+## Quick Start
 
-   ```bash
-   git clone <repository-url>
-   cd collab-tool
-   ```
+Clone the repository:
 
-2. **Setup the Backend**
+```bash
+git clone <repository-url>
+cd collab-tool
+```
 
-   ```bash
-   cd server
-   pnpm install
-   ```
+### 1. Configure the Backend
 
-   - Set up your `.env` file with database credentials and JWT secret.
-   - Run database migrations:
-     ```bash
-     pnpm run migrate
-     ```
-   - Start the development server (runs on `http://localhost:3000` or configured port):
-     ```bash
-     pnpm run dev
-     ```
+Install backend dependencies:
 
-3. **Setup the Frontend**
+```bash
+cd server
+pnpm install
+```
 
-   Open a new terminal window:
-   ```bash
-   cd client
-   pnpm install
-   ```
-   
-   - Start the Next.js development server:
-     ```bash
-     pnpm run dev
-     ```
+Create the backend environment file:
 
-## Project Structure
+```bash
+cp .env.example .env
+```
 
-- `/client` - Next.js frontend application containing pages, components, and the Tiptap collaborative editor.
-- `/server` - Express backend application handling REST API routes, authentication, database migrations, and the Hocuspocus WebSocket collaboration server.
+Set the backend variables:
+
+```env
+JWT_SECRET=supersecretkey
+PORT=4000
+DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+```
+
+Run database migrations:
+
+```bash
+pnpm prisma migrate dev
+```
+
+Start the backend:
+
+```bash
+pnpm dev
+```
+
+Backend URLs:
+
+```text
+REST API:  http://localhost:4000/api/v1
+WebSocket: ws://localhost:4000
+```
+
+### 2. Configure the Frontend
+
+Open a second terminal from the repository root:
+
+```bash
+cd client
+pnpm install
+```
+
+Create the frontend environment file:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Set the frontend variables:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000
+NEXT_PUBLIC_HOCUSPOCUS_URL=ws://localhost:4000
+```
+
+Start the frontend:
+
+```bash
+pnpm dev
+```
+
+Open the app:
+
+```text
+http://localhost:3000
+```
+
+Note: if `client/.env.local.example` contains `NEXT_PUBLIC_WS_URL`, keep that value aligned with `NEXT_PUBLIC_HOCUSPOCUS_URL`. The editor code currently reads `NEXT_PUBLIC_HOCUSPOCUS_URL`.
+
+## Environment Variables
+
+### Server
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `JWT_SECRET` | Yes | Secret used to sign and verify JWT tokens. |
+| `PORT` | No | Server port. Defaults to `4000`. |
+| `DATABASE_URL` | Yes | PostgreSQL connection string used by Prisma. |
+
+### Client
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `NEXT_PUBLIC_API_URL` | Yes | Base URL for backend REST requests. |
+| `NEXT_PUBLIC_HOCUSPOCUS_URL` | Yes | WebSocket URL for Hocuspocus/Yjs collaboration. |
+
+## Development Commands
+
+Run commands from each application directory.
+
+### Backend Commands
+
+```bash
+cd server
+pnpm dev                 # Start backend in development mode
+pnpm build               # Compile TypeScript to dist/
+pnpm start               # Run compiled backend
+pnpm prisma migrate dev  # Run database migrations
+pnpm prisma generate     # Generate Prisma Client
+pnpm prisma studio       # Open Prisma Studio
+```
+
+### Frontend Commands
+
+```bash
+cd client
+pnpm dev       # Start Next.js development server
+pnpm build     # Build production frontend
+pnpm start     # Start production frontend
+pnpm lint      # Run ESLint
+```
+
+There is no root-level workspace script at the moment, so the frontend and backend are started from separate terminals.
+
+## API Summary
+
+Base URL:
+
+```text
+http://localhost:4000/api/v1
+```
+
+Public auth routes:
+
+| Method | Path | Description |
+| --- | --- | --- |
+| `POST` | `/auth/register` | Create a user account. |
+| `POST` | `/auth/login` | Log in and receive a JWT. |
+
+Protected profile routes:
+
+| Method | Path | Description |
+| --- | --- | --- |
+| `GET` | `/profile/me` | Get the current user profile. |
+| `PUT` | `/profile/me` | Update profile fields or password. |
+| `DELETE` | `/profile/me` | Delete the current user. |
+
+Protected document routes:
+
+| Method | Path | Description |
+| --- | --- | --- |
+| `GET` | `/docs/my` | List documents owned by the current user. |
+| `GET` | `/docs/shared` | List documents shared with the current user. |
+| `GET` | `/docs/:id` | Get a document if owned or shared. |
+| `POST` | `/docs` | Create a document. |
+| `POST` | `/docs/update/name/:id` | Rename a document. Owner only. |
+| `DELETE` | `/docs/:id` | Delete a document. Owner only. |
+
+Protected permission routes:
+
+| Method | Path | Description |
+| --- | --- | --- |
+| `POST` | `/docs/permissions/user-search` | Search users for document sharing. |
+| `POST` | `/docs/permissions/add` | Add a user permission. |
+| `DELETE` | `/docs/permissions/remove` | Remove a permission. |
+| `GET` | `/docs/permissions/get-all/:docId` | List document permissions. |
+
+Protected routes require:
+
+```http
+Authorization: Bearer <token>
+```
+
+## Data Model
+
+The backend uses Prisma with PostgreSQL.
+
+Main models:
+
+| Model | Purpose |
+| --- | --- |
+| `User` | Stores account, credential, role, avatar, and profile color data. |
+| `Doc` | Stores document metadata, owner, timestamps, and binary Yjs state. |
+| `DocPermission` | Stores document sharing records by user and document. |
+
+Important enums:
+
+- `UserRole`: `user`, `admin`
+- `DocPermRole`: `edit`, `view`, `comment`
+
+Permission creation currently defaults to `edit`.
+
+## Collaboration Flow
+
+1. A user opens `/docs/[id]` in the frontend.
+2. The frontend fetches document metadata through the REST API.
+3. The editor creates a Yjs document and connects to the backend WebSocket endpoint through Hocuspocus.
+4. Hocuspocus loads existing binary Yjs state from `docs.body`.
+5. Editor changes sync between connected clients in real time.
+6. Hocuspocus stores the updated Yjs state back into PostgreSQL.
+
+## Documentation
+
+Detailed app-specific documentation:
+
+- [Frontend README](./client/README.md)
+- [Backend README](./server/README.md)
+
+Use this root README for project setup and overall architecture. Use the app-specific READMEs when working inside one side of the codebase.
+
+## Troubleshooting
+
+**Frontend cannot reach the API**
+
+- Confirm the backend is running on `PORT=4000`.
+- Confirm `client/.env.local` has `NEXT_PUBLIC_API_URL=http://localhost:4000`.
+- Restart `pnpm dev` after changing frontend environment variables.
+
+**Collaborative editor keeps loading or does not sync**
+
+- Confirm `NEXT_PUBLIC_HOCUSPOCUS_URL=ws://localhost:4000`.
+- Confirm the backend WebSocket server is running on the same port as the API.
+- Confirm the document exists and the current user has access.
+
+**Backend cannot connect to the database**
+
+- Confirm PostgreSQL is running.
+- Confirm `server/.env` has a valid `DATABASE_URL`.
+- Run `pnpm prisma migrate dev` from `server/`.
+
+**Protected requests return unauthorized**
+
+- Log in again to get a fresh token.
+- Confirm requests include `Authorization: Bearer <token>`.
+- Confirm the backend `JWT_SECRET` has not changed since the token was issued.
+
+## Current Limitations
+
+- There is no root-level monorepo script for starting both apps together.
+- The backend package currently has no dedicated test script.
+- Document permission roles exist in the schema, but new permissions currently default to `edit`.
 
 ## Future Plans
 
-- Interactive Whiteboarding
-- Collaborative Code editing
-- Document suggestions, comments
+- Interactive whiteboarding.
+- Collaborative code editing.
+- Document suggestions and comments.
