@@ -7,10 +7,10 @@ async function startServer(server: Server, PORT: number) {
         });
 
     } catch (err) {
-        console.error('❌ Database connection failed:', err);
+        console.error('❌ Server failed to start:', err);
         process.exit(1);
     }
-    
+
 }
 
 export default startServer;
