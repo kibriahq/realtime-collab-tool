@@ -18,7 +18,7 @@ Collab Tool is a real-time collaborative document editor. It combines a Next.js 
 ## Architecture
 
 ```text
-collab-tool/
+realtime-collab-tool/
 +-- client/              # Next.js frontend application
 +-- server/              # Express API and Hocuspocus collaboration server
 +-- editorss.png         # Project screenshot used in documentation
@@ -31,6 +31,85 @@ The frontend and backend are separate applications:
 - `server` runs both the REST API and WebSocket collaboration endpoint on `http://localhost:4000` by default.
 
 The editor uses the document ID as the Hocuspocus room name. The server stores Yjs binary updates in the `docs.body` column.
+
+### Client Directory
+
+The `client` directory contains the complete browser application. It is a Next.js App Router project responsible for authentication screens, protected app routes, dashboard views, profile management, API consumption, and the collaborative Tiptap editor.
+
+```text
+client/
++-- api/                 # Axios wrappers for backend REST endpoints
++-- app/                 # Next.js App Router pages, layouts, and error boundaries
+|   +-- (auth)/          # Protected routes such as dashboard, docs, and profile
+|   +-- (guest)/         # Public login and signup routes
+|   +-- globals.css      # Global styles
+|   +-- layout.tsx       # Root layout, providers, fonts, and toaster
+|   +-- providers.tsx    # Easy Peasy provider
++-- components/          # Reusable UI, auth, and editor components
+|   +-- auth/            # Login/signup form UI
+|   +-- editor/          # Tiptap editor shell, toolbar, header, and editor styles
+|   +-- ui/              # Shared interface components
++-- hooks/               # Feature hooks for auth, editor, home, profile, and permissions
++-- lib/                 # Shared library code
++-- public/              # Static assets
++-- store/               # Easy Peasy store and persisted auth model
++-- types/               # Shared TypeScript types for docs and users
++-- utils/               # Token, auth, color, and formatting helpers
++-- next.config.ts       # Next.js configuration
++-- tailwind.config.ts   # Tailwind configuration
++-- package.json         # Frontend dependencies and scripts
++-- README.md            # Frontend-specific documentation
+```
+
+Important frontend responsibilities:
+
+- `app/(guest)` renders unauthenticated signup and login flows.
+- `app/(auth)` guards authenticated routes and redirects unauthenticated users to `/login`.
+- `api/` centralizes REST calls for auth, profile, documents, and permissions.
+- `store/` persists the logged-in user and JWT token in localStorage.
+- `components/editor` and `hooks/useEditor.ts` initialize Tiptap, Yjs, Hocuspocus, collaboration cursors, and editor controls.
+- `app/(auth)/docs/[id]` loads document metadata and opens the collaborative editor room for that document ID.
+
+See [client/README.md](./client/README.md) for detailed frontend documentation.
+
+### Server Directory
+
+The `server` directory contains the REST API, Prisma database layer, JWT authentication middleware, route validators, document services, and Hocuspocus collaboration persistence.
+
+```text
+server/
++-- prisma/              # Prisma schema and migrations
+|   +-- schema.prisma    # User, Doc, and DocPermission models
+|   +-- migrations/      # Database migration history
++-- src/
+|   +-- app/             # Express app setup
+|   +-- controllers/     # Request handlers for auth, docs, permissions, and profile
+|   +-- hocuspocus/      # Yjs document load/store hooks
+|   +-- lib/             # Prisma client setup
+|   +-- middlewares/     # Global middleware, auth guard, and validators
+|   +-- routes/          # Root and /api/v1 route definitions
+|   +-- services/        # Database and domain logic
+|   +-- types/           # Shared backend TypeScript types
+|   +-- utils/           # Error, color, and server helpers
+|   +-- server.ts        # HTTP server entry point
++-- tests/               # Test workspace
++-- prisma.config.ts     # Prisma CLI configuration
++-- tsconfig.json        # TypeScript configuration
++-- package.json         # Backend dependencies and scripts
++-- README.md            # Backend-specific documentation
+```
+
+Important backend responsibilities:
+
+- `src/app/app.ts` creates the Express app, loads environment variables, applies middleware, and mounts routes.
+- `src/routes/v1` exposes `/auth`, `/profile`, and `/docs` under `/api/v1`.
+- `src/middlewares/auth.ts` verifies JWT bearer tokens and attaches the decoded user to protected requests.
+- `src/controllers` handles request/response concerns, while `src/services` contains database and domain operations.
+- `prisma/schema.prisma` defines users, documents, permissions, roles, and the Yjs binary document body.
+- `src/utils/startServer.ts` starts the HTTP server and upgrades WebSocket requests.
+- `src/hocuspocus/index.ts` loads and stores collaborative Yjs document state in PostgreSQL.
+
+See [server/README.md](./server/README.md) for detailed backend documentation.
 
 ## Tech Stack
 
@@ -72,8 +151,8 @@ The editor uses the document ID as the Hocuspocus room name. The server stores Y
 Clone the repository:
 
 ```bash
-git clone <repository-url>
-cd collab-tool
+git clone https://github.com/kibriahq/realtime-collab-tool
+cd realtime-collab-tool
 ```
 
 ### 1. Configure the Backend
