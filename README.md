@@ -2,7 +2,7 @@
 
 Collab Tool is a real-time collaborative document editor. It combines a Next.js frontend, an Express/TypeScript backend, PostgreSQL persistence, and Hocuspocus/Yjs WebSocket synchronization so authenticated users can create, share, and co-edit rich text documents.
 
-![Collab Tool](./editorss.png)
+![Collab Tool](./screenshot.png)
 
 ## Features
 
@@ -21,7 +21,7 @@ Collab Tool is a real-time collaborative document editor. It combines a Next.js 
 realtime-collab-tool/
 +-- client/              # Next.js frontend application
 +-- server/              # Express API and Hocuspocus collaboration server
-+-- editorss.png         # Project screenshot used in documentation
++-- screenshot.png       # Project screenshot used in documentation
 +-- README.md            # Main project documentation
 ```
 
