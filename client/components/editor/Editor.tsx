@@ -15,7 +15,7 @@ export default function Editor({ roomName, doc }: { roomName: string, doc: Doc }
     if (!provider || !editor) return <Loader />;
 
     return (
-        <div className="editor-container lg:mx-0 mx-4 mt-5 mb-2">
+        <div className="editor-container lg:mx-0 mx-4 mt-5 mb-2 px-1 md:px-0">
             <Header title={doc?.name!} docId={roomName} permissions={doc?.permissions!} isAuthor={doc?.isAuthor!} author={doc?.author!} />
             <Controls editor={editor} />
             <div className="h-[calc(100vh-180px)] overflow-y-auto editor-content-wrapper">
