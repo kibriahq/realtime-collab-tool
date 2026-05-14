@@ -1,34 +1,57 @@
-import bcrypt from "bcryptjs";
-import UserRepo from "../db/repositories/User.js";
 import type { UserType } from '../types/user.js';
+import { prisma } from "../lib/prisma.js";
 
 export const findAllUsers = async (): Promise<UserType[] | null> => {
-  return UserRepo.findAllUsers();
+	const users = await prisma.user.findMany();
+	return users as UserType[];
 };
 
 export const findUserById = async (id: number): Promise<UserType | null> => {
-  return UserRepo.findUserById(id);
+	const user = await prisma.user.findUnique({
+		where: { id },
+	});
+	return user as UserType;
 };
 
 export const findUserByEmail = async (email: string): Promise<UserType | null> => {
-  return UserRepo.findUserByEmail(email);
+	const user = await prisma.user.findUnique({
+		where: { email },
+	});
+	return user as UserType;
 };
 
 export const findByProperty = async (property: string, value: string): Promise<UserType | null> => {
-  return UserRepo.findByProperty(property, value);
+	const user = await prisma.user.findFirst({
+		where: { [property]: value } as any,
+	});
+	return user as UserType;
 };
 
-export const createUser = async (data: UserType): Promise<UserType | null> => {
-  return UserRepo.createUser(data);
+export const createUser = async (data: UserType): Promise<UserType> => {
+	const user = await prisma.user.create({
+		data: {
+			name: data.name,
+			email: data.email,
+			password: data.password,
+			role: data.role,
+			color: data.color,
+		},
+	});
+
+	return user as UserType;
 };
 
-export const updateUser = async (id: number, data: Partial<UserType & {newPassword?: string}>): Promise<UserType | null> => {
-  if(data.newPassword){
-    data.password = await bcrypt.hash(data.newPassword, 10);
-  }
-  return UserRepo.updateUser(id, data);
+export const updateUser = async (id: number, data: Partial<UserType>): Promise<UserType | null> => {
+	const user = await prisma.user.update({
+		where: { id },
+		data: data,
+	});
+	return user as UserType;
 };
 
 export const deleteUser = async (id: number): Promise<UserType | null> => {
-  return UserRepo.deleteUser(id);
+	const user = await prisma.user.delete({
+		where: { id },
+	});
+	return user as UserType;
 };

@@ -1,21 +1,25 @@
 import { Server } from "@hocuspocus/server";
 import * as Y from "yjs";
-import Doc from "../db/repositories/Doc.js";
+import { prisma } from "../lib/prisma.js";
 
 
 const hocuspocus = new Server({
     port: 1234,
     async onLoadDocument({ documentName }: { documentName: string }) {
         // load state
-        const data = await Doc.selectDocBody(documentName);
+        const data = await prisma.doc.findUnique({
+            where: {
+                id: documentName
+            }
+        });
 
         // Guard: skip if null, undefined, or empty buffer
-        if (!data || data.length === 0) {
+        if (!data || !data.body || data.body.length === 0) {
             return null;
         }
 
         const ydoc = new Y.Doc();
-        Y.applyUpdate(ydoc, new Uint8Array(data)); // Buffer → Uint8Array
+        Y.applyUpdate(ydoc, new Uint8Array(data.body)); // Buffer → Uint8Array
         return ydoc;
     },
 
@@ -23,7 +27,14 @@ const hocuspocus = new Server({
         // document is Y.Doc instance
         const state = Y.encodeStateAsUpdate(document);
 
-        Doc.updateDocHP(documentName, Buffer.from(state));
+        await prisma.doc.update({
+            where: {
+                id: documentName
+            },
+            data: {
+                body: Buffer.from(state)
+            }
+        });
     },
 });
 

@@ -4,9 +4,13 @@ import type { AuthRequest } from "../middlewares/auth.js";
 import error from "../utils/error.js";
 
 export const myDocs = async (req: AuthRequest, res: Response) => {
-    const userId = req.user!.id;
-    const docs = await getDocsByUser(userId.toString());
-    return res.status(200).json(docs);
+    try {
+        const userId = req.user!.id;
+        const docs = await getDocsByUser(userId.toString());
+        return res.status(200).json(docs);
+    } catch (err: any) {
+        throw error(err.message, 500);
+    }
 }
 
 export const sharedDocs = async (req: AuthRequest, res: Response) => {
@@ -16,17 +20,16 @@ export const sharedDocs = async (req: AuthRequest, res: Response) => {
 }
 
 export const create = async (req: AuthRequest, res: Response) => {
-    const userId = req.user!.id;
-    let name = 'New Document';
+    try {
+        const userId = req.user!.id;
+        const name = req.body.name || 'New Document';
 
-    if (req.body) {
-        const { name: docName } = req.body as { name?: string };
-        name = docName as string;
+        const doc = await createDoc(name, '', userId);
+
+        return res.status(201).json(doc);
+    } catch (err: any) {
+        throw error(err.message, 500);
     }
-
-    const doc = await createDoc(name, '', userId);
-
-    return res.status(201).json(doc);
 }
 
 export const updateName = async (req: AuthRequest, res: Response) => {

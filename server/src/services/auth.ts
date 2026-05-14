@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { Role } from "../types/user.js";
+import { UserRole } from "../types/user.js";
 import { createUser, findUserByEmail } from "./user.js";
 import error from "../utils/error.js";
 import { getRandomColor } from "../utils/colors.js";
@@ -24,19 +24,12 @@ export const registerUser = async (name: string, email: string, password: string
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = await createUser({
-        id: 0,
         name: name,
         email: email,
         password: hashedPassword,
-        role: Role.user,
+        role: UserRole.user,
         color: getRandomColor(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
     });
-
-    if (!newUser) {
-        throw error("Failed to create user", 500);
-    }
 
     return newUser;
 };

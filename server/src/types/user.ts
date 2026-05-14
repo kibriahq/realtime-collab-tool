@@ -1,16 +1,15 @@
+import { UserRole } from "../../generated/prisma/client.js";
+
 export type UserType = {
-    id: number;
+    id?: number;
     name: string;
     email: string;
     password: string;
     avatar?: string;
-    role: Role;
+    role: UserRole;
     color: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
 
-export enum Role {
-    user,
-    admin
-}
+export { UserRole };
