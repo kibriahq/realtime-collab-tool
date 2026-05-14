@@ -1,10 +1,9 @@
-import { Server } from "@hocuspocus/server";
+import { Hocuspocus } from "@hocuspocus/server";
 import * as Y from "yjs";
 import { prisma } from "../lib/prisma.js";
-const PORT = Number(process.env.HOCUSPOCUS_PORT) || 1234;
 
-const hocuspocus = new Server({
-    port: PORT,
+const hocuspocus = new Hocuspocus({
+
     async onLoadDocument({ documentName }: { documentName: string }) {
         // load state
         const data = await prisma.doc.findUnique({
