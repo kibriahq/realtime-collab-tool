@@ -10,9 +10,9 @@ const FormSaveBtn = ({ isSaving }: { isSaving: boolean }) => {
             {isSaving ? (
                 <Loader2 size={18} className="animate-spin" />
             ) : (
-                <Save size={18} />
+                <Save size={18} className="hidden sm:inline" />
             )}
-            Save Changes
+            Save <span className="hidden sm:inline">Changes</span>
         </button>
     )
 }

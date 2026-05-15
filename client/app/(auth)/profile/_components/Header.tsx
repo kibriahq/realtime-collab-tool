@@ -15,16 +15,16 @@ const Header = ({ profile, handleLogout, setIsEditing }: Props) => {
             <div className={`bg-linear-to-r from-${profile.color}-500 to-${profile.color}-400 px-6 py-12`}>
             </div>
 
-            <div className="bg-white shadow-sm flex justify-between items-center px-7">
-                <div className="flex items-center gap-4 pb-5 pt-1">
+            <div className="bg-white shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center px-7">
+                <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 pb-2 sm:pb-5 pt-1 w-full">
                     <Avatar profile={profile} />
                     <div className="py-2">
-                        <h2 className="text-2xl font-bold text-slate-700">{profile.name}</h2>
-                        <p className="text-slate-500">{profile.email}</p>
+                        <h2 className="text-xl sm:text-2xl text-center sm:text-left font-bold text-slate-700">{profile.name}</h2>
+                        <p className="text-center sm:text-left text-slate-500">{profile.email}</p>
                     </div>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2 pb-2 w-full justify-center sm:justify-end">
                     <LogoutBtn onClick={handleLogout} />
                     <EditBtn onClick={() => setIsEditing(true)} />
                 </div>
