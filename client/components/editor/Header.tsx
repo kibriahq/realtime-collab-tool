@@ -21,7 +21,7 @@ function Header({ title, docId, permissions, isAuthor, author }: { title: string
     } = useEditorHeader(title, docId, permissions);
 
     return (
-        <div className="flex flex-col min-[450px]:flex-row justify-between items-start">
+        <div className="flex flex-col sm:flex-row justify-between items-start">
             <Title
                 isAuthor={isAuthor}
                 isEdit={isEdit}

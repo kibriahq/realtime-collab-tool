@@ -17,13 +17,13 @@ const AddUser = ({ docId, handleUpdatePermissions }: { docId: string, handleUpda
                 className={`fixed inset-0 z-40 ${isAddUserOpen ? 'block' : 'hidden'}`}
                 onClick={handleAddUser}
             />
-            <div className="relative group">
+            <div className="sm:relative group">
                 <div onClick={handleAddUser} className="w-10 h-10 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center cursor-pointer border-dashed border-2 border-slate-400">
                     <span className="text-slate-500 hover:text-slate-600 font-semibold text-xl">
                         <Plus />
                     </span>
                 </div>
-                <div className={`absolute top-11 right-0 w-[250px] h-[300px] bg-slate-100 rounded-full z-40 border border-slate-300 p-2 px-2 ${isAddUserOpen ? 'block' : 'hidden'}`}>
+                <div className={`absolute mt-1 sm:top-10 left-0 sm:left-auto sm:right-0 w-full sm:w-[250px] h-[350px] sm:h-[300px] bg-slate-100 rounded-full z-40 border border-slate-300 p-2 px-2 ${isAddUserOpen ? 'block' : 'hidden'}`}>
                     <div className="flex flex-col items-center justify-start h-full">
                         <div className="px-2 py-2 w-full">
                             <input value={input} onChange={handleSearch} type="text" className="border border-slate-200 rounded p-2 mt-2 w-full text-slate-500 focus:outline-none focus:border-slate-300" placeholder="Search by email..." />
