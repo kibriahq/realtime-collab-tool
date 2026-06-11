@@ -1,14 +1,13 @@
-"use client"
-
 import { FileText, Users } from "lucide-react";
 import Navbar from "@/components/ui/Navbar";
 import DocList from "@/components/ui/DocList";
-import useHome from "@/hooks/useHome";
+// import useHome from "@/hooks/useHome";
 import CreateDocButton from "@/components/ui/CreateDocButton";
 import HomeHeader from "@/components/ui/HomeHeader";
+import { HomeDoc } from "@/lib/enums/homeDoc"
 
 export default function Home() {
-  const { docs, shareDocs, createNewDoc } = useHome();
+  // const { docs, shareDocs, createNewDoc } = useHome();
 
   return (
     <main className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
@@ -18,20 +17,20 @@ export default function Home() {
         <section className="mb-8">
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <HomeHeader />
-            <CreateDocButton onClick={createNewDoc} />
+            <CreateDocButton />
           </div>
         </section>
 
         <div className="grid lg:grid-cols-2 gap-8">
           <DocList
-            docs={docs}
+            type={HomeDoc["my-docs"]}
             title="My Documents"
             icon={<FileText size={20} className="text-indigo-600" />}
             iconBg="indigo"
           />
 
           <DocList
-            docs={shareDocs}
+            type={HomeDoc["shared-docs"]}
             title="Shared Documents"
             icon={<Users size={20} className="text-amber-600" />}
             iconBg="amber"

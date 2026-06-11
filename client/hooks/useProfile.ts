@@ -83,9 +83,12 @@ const useProfile = () => {
     }
 
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         logout();
         removeToken();
+        await fetch('/api/auth/logout', {
+            method: "POST"
+        })
         toast.success("Logout successful");
         router.push('/login');
     }

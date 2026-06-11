@@ -1,16 +1,45 @@
-import React from 'react'
+"use client"
+
+import React, { useEffect, useState } from 'react'
 import { Doc } from '@/types/doc'
 import Link from 'next/link'
 import { timeFormater } from '@/utils/timeFormater'
+import { getMyDocs, getSharedDocs } from '@/api/doc'
+import { HomeDoc } from '@/lib/enums/homeDoc'
+import handleError from '@/utils/error'
 
 type Props = {
-    docs: Doc[],
+    type: HomeDoc,
     title: string,
     icon: React.ReactNode,
     iconBg: string
 }
 
-const DocList = ({ docs, title, icon, iconBg }: Props) => {
+const DocList = ({ type, title, icon, iconBg }: Props) => {
+    const [docs, setDocs] = useState<Doc[]>([]);
+
+    const getDocs = async () => {
+        try {
+            if (type === HomeDoc["my-docs"]) {
+                const docs = await getMyDocs();
+                setDocs(docs);
+            }
+
+            if (type === HomeDoc["shared-docs"]) {
+                const docs = await getSharedDocs();
+                setDocs(docs);
+            }
+        } catch (error: unknown) {
+            handleError(error)
+        }
+    }
+
+    useEffect(() => {
+        console.log('fresh data');
+        
+        getDocs();
+    }, []);
+
     return (
         <section className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
             <h2 className="text-xl font-bold mb-6 flex items-center gap-3 text-slate-800">
