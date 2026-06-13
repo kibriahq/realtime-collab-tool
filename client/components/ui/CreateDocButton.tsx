@@ -1,7 +1,7 @@
 "use client"
 
-import { createDoc } from '@/api/doc';
-import handleError from '@/utils/error';
+import { createDoc } from '@/lib/api/doc';
+import handleError from '@/lib/utils/error';
 import { Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner'

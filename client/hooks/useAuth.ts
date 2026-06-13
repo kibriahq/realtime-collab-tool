@@ -1,10 +1,10 @@
 "use client"
 
 import { SubmitHandler, useForm } from "react-hook-form"
-import { login, signup } from "@/api/auth"
+import { login, signup } from "@/lib/api/auth"
 import { redirect, useRouter } from "next/navigation"
 import { useStoreActions } from "easy-peasy"
-import { setToken } from "@/utils/token"
+import { setToken } from "@/lib/utils/token"
 import axios from "axios"
 import { toast } from "sonner"
 

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { getProfile, updateProfile } from "@/api/user"
+import { getProfile, updateProfile } from "@/lib/api/user"
 import { toast } from "sonner"
 import { useStoreActions } from "easy-peasy"
 import { useRouter } from 'next/navigation'
-import { removeToken } from "@/utils/token"
+import { removeToken } from "@/lib/utils/token"
 import type { Profile } from "@/types/user";
 
 const useProfile = () => {

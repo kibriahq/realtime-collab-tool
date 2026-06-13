@@ -1,4 +1,4 @@
-import { addPermission, userSearch } from "@/api/docPermission";
+import { addPermission, userSearch } from "@/lib/api/docPermission";
 import { useState } from "react";
 import { toast } from "sonner";
 

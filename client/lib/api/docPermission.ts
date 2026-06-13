@@ -1,4 +1,4 @@
-import { getToken } from "@/utils/token";
+import { getToken } from "@/lib/utils/token";
 import axios from "axios";
 
 export const userSearch = async (search: string, docId: string) => {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getToken } from "../utils/token";
+import { getToken } from "@/lib/utils/token";
 
 export const createDoc = async (name?: string) => {
     const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/docs`, {

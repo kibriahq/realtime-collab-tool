@@ -1,6 +1,6 @@
 'use client'
 
-import { getDoc } from "@/api/doc";
+import { getDoc } from "@/lib/api/doc";
 import { Doc } from "@/types/doc";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Loader from "@/components/ui/Loader";
 
-const Editor = dynamic(() => import('@/components/editor/Editor'), {
+const Editor = dynamic(() => import('@/components/features/editor/Editor'), {
     ssr: false,
     loading: () => <Loader />,
 });

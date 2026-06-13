@@ -5,7 +5,7 @@ import { EditorContent } from "@tiptap/react";
 import Controls from "./Controls";
 import Header from "./Header";
 import { Doc } from "@/types/doc";
-import Loader from "../ui/Loader";
+import Loader from "@/components/ui/Loader";
 
 
 export default function Editor({ roomName, doc }: { roomName: string, doc: Doc }) {

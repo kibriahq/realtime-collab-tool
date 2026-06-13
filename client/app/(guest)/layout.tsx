@@ -1,7 +1,7 @@
 "use client"
 
-import AuthHeader from '@/components/auth/AuthHeader'
-import AuthLink from '@/components/auth/AuthLink'
+import AuthHeader from '@/components/features/auth/AuthHeader'
+import AuthLink from '@/components/features/auth/AuthLink'
 import { Store } from '@/store'
 import { useStoreState } from 'easy-peasy'
 import { useRouter } from 'next/navigation'

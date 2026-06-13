@@ -1,5 +1,5 @@
-import { deleteDoc, updateDocName } from "@/api/doc";
-import { getAllPermissions, removePermission } from "@/api/docPermission";
+import { deleteDoc, updateDocName } from "@/lib/api/doc";
+import { getAllPermissions, removePermission } from "@/lib/api/docPermission";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Permission } from "@/types/doc";

@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import { Doc } from '@/types/doc'
 import Link from 'next/link'
-import { timeFormater } from '@/utils/timeFormater'
-import { getMyDocs, getSharedDocs } from '@/api/doc'
+import { timeFormater } from '@/lib/utils/timeFormater'
+import { getMyDocs, getSharedDocs } from '@/lib/api/doc'
 import { HomeDoc } from '@/lib/enums/homeDoc'
-import handleError from '@/utils/error'
+import handleError from '@/lib/utils/error'
 
 type Props = {
     type: HomeDoc,

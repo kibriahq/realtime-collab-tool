@@ -1,7 +1,7 @@
 "use client"
 
-import InputField from "@/components/auth/InputField"
-import SubmitBtn from "@/components/auth/SubmitBtn"
+import InputField from "@/components/features/auth/InputField"
+import SubmitBtn from "@/components/features/auth/SubmitBtn"
 import useAuth from "@/hooks/useAuth"
 
 export default function SignupPage() {
